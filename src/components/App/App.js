@@ -1,14 +1,17 @@
 import '../../index.css';
 import React from 'react';
 import { Route, Switch, withRouter} from 'react-router-dom';
-import Login from '../Login/Login';
-import Register from '../Register/Register.js';
+import Login from '../Security/Login/Login';
+import Register from '../Security/Register/Register.js';
 import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Profile from '../Profile/Profile';
+import SavedMovies from '../Movies/SavedMovies/SavedMovies';
+import Profile from '../Security/Profile/Profile';
+import NotFoundPage from '../Navigation/Notfound';
+
 
 //import {authorize, register, handleTokenCheck} from '../utils/Auth';
-import Header from '../Header/Header';
+//import Header from '../Header/Header';
+
 import Main from '../Main/Main';
 import api from '../../utils/api';
 //import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -19,12 +22,14 @@ function App(props) {
 //карточки
    const [cards, setCards] = React.useState([]);
     
-    React.useEffect(() => {
+  React.useEffect(() => {
         function getCards () { 
-          api.getInitialCards()
+          api.getCards()
           .then((data) => {
                     setCards(data);
-                    
+                    console.log('data', data[0].nameRU);
+                    //console.log(cards);
+                                      
           })
           .catch((error) => console.log(error))
         }
@@ -37,25 +42,37 @@ function App(props) {
 //      <CurrentUserContext.Provider value={currentUser}>
         
     <div className="page">
-        <div className="page__content">
-     <Header />
-    {/*  <Switch>
-          <Route path="/signin" component = {Login}> 
-        </Route> 
-        <Route path="/signup" component = {Register}> 
+    <Switch>
+     <Route path="/movies" >
+       <Movies cards = {cards} /> 
         </Route>
-        <Route path="/movies" component = {Movies} cards = {cards}> 
+        <Route path="/signin" component = {Login} >
+         </Route>
+        <Route path="/signup" component = {Register} >
+         </Route>
+         <Route path="/profile" component = {Profile} >
+         </Route>
+         <Route path="/saved-movies" >
+         <SavedMovies cards = {cards} /> 
+         </Route>
+         
+     <Route exact path="/"  >
+       <Main /> 
         </Route>
+
+          {/* 
+                  <Route path="/signup" component = {Register}> 
+        </Route>
+        
         <Route path="/saved-movies" component = {SavedMovies}> 
         </Route>
         <Route path="/profile" component = {Profile}> 
-        </Route>
-        <Route exact path="/" component = {Main}  > 
-        </Route>
-     
-    </Switch> */}
-     
-   </div>
+        </Route> */}
+  
+  <Route component={NotFoundPage} />
+    </Switch> 
+    
+    
 </div>
 //</CurrentUserContext.Provider>
     );

@@ -1,0 +1,16 @@
+.login__form_button {
+    background-color: #4285F4;
+    color: white;
+    margin-top: 179px;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 13px;
+    padding-bottom: 15px;
+    border-radius: 3px;
+}
+
+input:last-of-type {
+
+    margin-bottom: 0;
+}

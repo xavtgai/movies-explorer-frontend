@@ -4,11 +4,11 @@ class Api {
     constructor({
         baseUrl,
         headers, 
-        credentials
+        // credentials
     }) {
         this.baseurl = baseUrl;
         this.headers = headers;
-        this.credentials = credentials;
+        // this.credentials = credentials;
 
     }
 
@@ -20,7 +20,7 @@ class Api {
     }
 
     getInitialCards() {
-        return fetch(`${this.baseurl}/cards`, { headers: this.headers, credentials: this.credentials })
+        return fetch(`${this.baseurl}`, { headers: this.headers, credentials: this.credentials })
             .then(this._handleResponse);
     }
     myData() {
@@ -92,7 +92,7 @@ class Api {
     }
 
     getCards() {
-        return fetch(`${this.baseurl}/cards`, { headers: this.headers, credentials: this.credentials })
+        return fetch(`${this.baseurl}`, { headers: this.headers, credentials: this.credentials })
             .then(this._handleResponse);
     }
 
@@ -106,12 +106,9 @@ class Api {
 }
 
 const api = new Api({
-    //baseUrl: 'http://localhost:3000',
     baseUrl:  BASE_URL,
-    credentials: 'include',
-    //    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
+    // credentials: 'include',
     headers: {
-        //        authorization: '56499e83-904f-41b8-8eb4-95712821cfa6',
         'Content-Type': 'application/json'
     }
 });
