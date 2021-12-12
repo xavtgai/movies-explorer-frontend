@@ -11,6 +11,7 @@ function MoviesCardList (props) {
               { 
               initialMovies.map((card) => (
             <Film 
+                key = {card.id}
                  card={card} 
                  url = {props.location}
             />

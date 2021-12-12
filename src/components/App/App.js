@@ -27,8 +27,7 @@ function App(props) {
           api.getCards()
           .then((data) => {
                     setCards(data);
-                    console.log('data', data[0].nameRU);
-                    //console.log(cards);
+                    
                                       
           })
           .catch((error) => console.log(error))
