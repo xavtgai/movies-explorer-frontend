@@ -57,8 +57,28 @@ margin-bottom: 90px;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    hight: 60px;
-}
+    }
+
 .techs__icon:first-child {
     margin-left: 0px;
 }
+
+@media screen and (max-width: 700px) {
+    .techs__list  {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+    }
+    .techs__icon {
+        margin: 0;
+            }
+    .techs__subtitle {
+        font-size: 30px;
+        line-height: 37px;
+            }
+    .techs__text {
+                max-width: 300px;
+                font-size: 11px;
+                line-height: 16px;
+            }
+        }

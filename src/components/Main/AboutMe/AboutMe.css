@@ -5,6 +5,7 @@
 
 .student__main {
     display: flex;
+    
     justify-content: space-between;
     }
 
@@ -65,7 +66,31 @@ line-height: 17px;
     cursor: pointer;
 }
 .student__image {
+    position: relative;
     border-radius: 10px;
-    width: 270px;
+    max-width: 270px;
+    
+    
 }
 
+@media screen and (max-width: 700px) {
+    .student {
+        padding-left: 14px;
+        padding-right: 14px;
+    } 
+    .student__main {
+              flex-direction: column;
+              flex-flow: column-reverse;
+            }
+        
+     .student__image {
+          width: 100%;
+          margin: auto;
+      }
+    .student__about {
+        font-size: 11px;
+        line-height: 16px;
+        max-width: 300px;
+        margin-bottom: 99px;
+    }       
+}

@@ -81,3 +81,32 @@
     line-height: 18px;
     
 }
+
+input+label.search_shortilms_label {
+    display: inline;
+    overflow: hidden;
+    margin:0;
+    
+    background-size: contain;
+    background-repeat:  no-repeat;
+    cursor: pointer;
+  
+  }
+
+.search_shortilms_label {
+    width: 36px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background: url('../../../images/shortfilms_off.svg');
+    border: none;
+    padding:0;
+    margin:0;
+
+}
+.search_shortilms:checked ~ .search_shortilms_label {
+        background: url('../../../images/shortfilms.svg');
+        }
+.search_shortilms_label:hover {
+    opacity: 0.7;
+}

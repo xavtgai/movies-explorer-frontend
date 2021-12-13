@@ -1,7 +1,6 @@
 .navigation {
     position: relative;
     box-sizing: border-box;
-border: 3px solid red;
 width: 520px;
 height: 100vh;
 background-color: #202020;
@@ -9,7 +8,7 @@ color: red;
 font-weight: 900;
 font-size: 50;
 position: absolute;
-left: 0;
+right: 0;
 top:0;
 padding: 159px  90px 92px;
 z-index: 2;

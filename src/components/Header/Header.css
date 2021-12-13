@@ -116,7 +116,7 @@ input+label {
   display:none;
 }
 .header__menu-window {
-  visibility: visible;
+  visibility: hidden;
 }
 .header__menu_checkbox {
   position: absolute;
@@ -126,8 +126,8 @@ input+label {
 }
 
 .header__menu_checkbox:checked  ~ .header__menu-window {
-visibility: hidden;
-display: none;
+visibility: visible;
+/* display: none; */
 }
 
 @media screen and (max-width: 780px) {

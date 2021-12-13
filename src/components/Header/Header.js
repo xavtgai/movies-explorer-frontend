@@ -69,14 +69,17 @@ function Header(props){
               Войти
             </NavLink>
             
-            <input className='header__menu_checkbox' id='menu' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}
-            >
+            {props.location.pathname != "/" ? 
+            <><input className='header__menu_checkbox' id='menu' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}>
             </input>
-            <label for="menu" className='header__menu'></label>
+            <label htmlFor="menu" className='header__menu'></label>
 
              <div className='header__menu-window' id='menuwindow'>
                <Navigation />
-               </div>
+               </div> 
+               </>
+               : ""
+              }
             <div 
          
             className = {props.location.pathname === "/" ?  "header__navlinks_invisible" :   "header__navlinks"}
