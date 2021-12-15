@@ -6,10 +6,8 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Preloader from './Preloader/Preloader';
 import './Movies.css';
-
-
 import './Movies.css';
-import { PromiseProvider } from 'mongoose';
+
 
 function Movies (props) {
     return (
