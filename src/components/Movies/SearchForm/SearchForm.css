@@ -24,7 +24,6 @@
     font-weight: 400;
     font-size: 13px;
     line-height: 17px;
-
 }
 
 .search__find {
@@ -40,26 +39,6 @@
     margin: 0;
     padding: 0;
     /* margin-left: -60px; */
-}
-
-.switch-btn {
-    background: url('../../../images/shortfilms.svg');
-    width: 36px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    padding:0;
-    margin:0;
-    
-}
-.switch-btn-off {
-    background: url('../../../images/shortfilms_off.svg');
-    width: 36px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
 }
 
 .search__filter {
