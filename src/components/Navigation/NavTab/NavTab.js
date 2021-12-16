@@ -22,7 +22,7 @@ function Navigation (props) {
                   to='/profile'
                   className = "navigation__item navigation__account" 
                 >
-                Аккаунт <img src={profile_icon} className='header__profile-icon'></img>
+                Аккаунт <img src={profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
                 </Link>
             </div>   
         </section>

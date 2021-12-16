@@ -104,7 +104,7 @@ function Header(props){
                   to={profile_link}
                   className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink"} 
                 >
-                Аккаунт <img src={profile_icon} className='header__profile-icon'></img>
+                Аккаунт <img src={profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
                 </NavLink>
                 </div>
                 </div>

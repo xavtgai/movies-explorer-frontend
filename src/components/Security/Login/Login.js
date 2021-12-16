@@ -8,7 +8,7 @@ function login(){
         <section className="auth">
       
       <div className="auth__form">
-      <img src={logo} alt='logo'></img>  
+      <img src={logo} alt='Логотип'></img>  
         <p className="auth__form_title">
           Рады видеть!
         </p>

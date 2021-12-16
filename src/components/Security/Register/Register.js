@@ -8,7 +8,7 @@ function register (){
         <section className="auth">
       
       <div className="auth__form">
-      <img src={logo} className='auth__logo' ></img>  
+      <img src={logo} className='auth__logo' alt='Логотип' ></img>  
         <p className="auth__form_title">
           Добро пожаловать!
         </p>
