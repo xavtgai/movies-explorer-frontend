@@ -16,7 +16,7 @@ return (
 
               <h2 className="film__title">{props.card.nameRU}</h2>
               <button type="button"
-              className = {props.url == "/movies" ?  "film__like" : "film__delete"} 
+              className = {props.url === "/movies" ?  "film__like" : "film__delete"} 
               ></button>
             </div>
                <p className='film__duration'>{Duration(props.card.duration)}</p>

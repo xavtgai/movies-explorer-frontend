@@ -1,9 +1,8 @@
 import React from 'react';
 import './NavTab.css';
 
-import { Link, NavLink} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import profile_icon from '../../../images/profile_icon.svg';
-import close_button from '../../../images/close.svg';
 
 function Navigation (props) {
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, NavLink, withRouter} from 'react-router-dom';
+import { NavLink, withRouter} from 'react-router-dom';
 import profile_icon from '../../images/profile_icon.svg';
-import {path} from '../../utils/constants';
+// import {path} from '../../utils/constants';
 import Navigation from '../Navigation/NavTab/NavTab';
 
 import './Header.css';
@@ -25,7 +25,7 @@ function Header(props){
     let profile_link = './profile';
     let signup = '/signup';
     let signin = '/signin';
-    let nav = "petya";
+    
     
 
     switch (props.location.pathname) {
@@ -69,7 +69,7 @@ function Header(props){
               Войти
             </NavLink>
             
-            {props.location.pathname != "/" ? 
+            {props.location.pathname !== "/" ? 
             <><input className='header__menu_checkbox' id='menu' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}>
             </input>
             <label htmlFor="menu" className='header__menu'></label>
