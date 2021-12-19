@@ -5,9 +5,8 @@
 
 .student__main {
     display: flex;
-    
     justify-content: space-between;
-    }
+}
 
 .student__title {
     border-bottom: 1px solid #DADADA;
@@ -81,10 +80,12 @@ line-height: 17px;
     .student__main {
               flex-direction: column;
               flex-flow: column-reverse;
+              row-gap: 40px;
             }
         
      .student__image {
           width: 100%;
+          
           margin: auto;
       }
     .student__about {
@@ -93,4 +94,24 @@ line-height: 17px;
         max-width: 300px;
         margin-bottom: 99px;
     }       
+    
+    .student__name {
+        font-size: 40px;
+        line-height: 40px;
+    }
+}
+
+@media screen and  (max-width: 950px) {
+    .student__about {
+        font-size: 12px;
+        line-height: 18px;
+        max-width: 364px;
+        margin-bottom: 87px;
+    } 
+}
+@media  screen and (max-width: 750px) {
+ .student__name {
+        font-size: 30px;
+        line-height: 36px;
+    }
 }

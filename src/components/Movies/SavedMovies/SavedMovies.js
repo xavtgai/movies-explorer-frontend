@@ -12,9 +12,11 @@ function SavedMovies (props) {
         <section className='movies'>
         
         <Header />
+        <main className='content'>
         <SearchForm />
         <MoviesCardList cards={props.cards} location = {props.location.pathname} />
         {/* <Preloader /> */}
+        </main>
         <Footer />
     </section>)
 }

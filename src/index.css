@@ -12,6 +12,7 @@
    box-sizing: border-box;
    color: white;
    background-color: #202020;
+   position: relative;
  
 }
 .content  {

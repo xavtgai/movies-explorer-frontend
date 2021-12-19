@@ -8,10 +8,12 @@ function login(){
         <section className="auth">
       
       <div className="auth__form">
-      <img src={logo} alt='Логотип'></img>  
+      <div className='auth__header'>
+      <a href='/' className='auth__to-main'><img src={logo} alt='Логотип' /> </a>  
         <p className="auth__form_title">
           Рады видеть!
         </p>
+        </div>
         <form  >
         <p className='auth__form_name'>E-mail</p>
           <input 

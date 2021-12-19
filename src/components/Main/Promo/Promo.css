@@ -7,17 +7,19 @@
 }
 
 .promo__title {
-    position: relative;
+position: relative;
+box-sizing: border-box;
 color: white;
 font-weight: 400;
 font-size: 40px;
 line-height: 52px;
-width: 626px;
-left: 70px;
-letter-spacing: 0.01px;
-word-spacing: .2 em;
+/* width: 626px; */
 margin: 0;
 padding: 0;
+padding-left: 70px;
+letter-spacing: 0.01px;
+word-spacing: .2 em;
+
 
 }
 
@@ -26,7 +28,7 @@ padding: 0;
     right: 70px;
     bottom: 60px;
     max-width: 722px;
-    min-width: 680px;
+    min-width: 722px;
     overflow: hidden;
     height: 244px;
     background-image: url('../../../images/landing-logo.svg');
@@ -36,13 +38,15 @@ padding: 0;
 
 @media screen and (max-width: 700px) {
     .promo__title  {
-      width: 550px;
+      /* width: 90%; */
+      font-size: 31px;
+      line-height: 39px;
+      
     }
     .promo__image {
-        min-width: 100%;
-        right: 0;
-        margin: auto;
-    }
+        min-width: 500px;
+        right: 44px;
+            }
 }
 
 @media screen and (max-width: 400px) {
@@ -50,5 +54,11 @@ padding: 0;
       width: 300px;
       font-size: 31px;
     line-height: 39px;
+    padding-left: 10px;
+      padding-right: 10px;
+    }
+    .promo__image {
+        min-width: 320px;
+        right: 0;
     }
 }

@@ -64,6 +64,10 @@ margin-bottom: 90px;
 }
 
 @media screen and (max-width: 700px) {
+    .techs {
+        padding: 90px 50px;
+        }
+    
     .techs__list  {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -82,3 +86,8 @@ margin-bottom: 90px;
                 line-height: 16px;
             }
         }
+@media screen and (max-width: 500px) {
+    .techs {
+        padding: 70px 18px;
+        }
+}

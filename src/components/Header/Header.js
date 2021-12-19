@@ -50,12 +50,13 @@ function Header(props){
     <div 
     className = {props.location.pathname === "/" ?  "header__upper_main" : "header__upper"} 
     >
-    <img src={logo} alt="Логотип сайта" className="header__logo" />
+    <a href='/' className='header__to-main'><img src={logo} alt="Логотип сайта" className="header__logo" /></a>
            
         {/* {loggedIn && props.login ? (
           <p className="header__login">{props.login}</p>
         ) : null} */}
   <div className='header__links'>
+    <div className='header__main-links'>
         <NavLink
               to={signup}
               className = {props.location.pathname === "/" ?  "header__navlink header__registration" :   "header__navlink_invisible"} 
@@ -68,7 +69,7 @@ function Header(props){
             >
               Войти
             </NavLink>
-            
+            </div>
             {props.location.pathname !== "/" ? 
             <><input className='header__menu_checkbox' id='menu' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}>
             </input>

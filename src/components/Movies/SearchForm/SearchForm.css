@@ -24,6 +24,18 @@
     font-weight: 400;
     font-size: 13px;
     line-height: 17px;
+    width: 92%;
+    
+}
+.search__field:hover {
+    opacity: 0.7;
+    }
+
+.search__field:focus {
+    background-color: #48484d;
+    outline: none;
+    border-radius: 10px;
+    height: 70%;
 }
 
 .search__find {
@@ -38,7 +50,13 @@
     text-align: center;
     margin: 0;
     padding: 0;
+    border: none;
     /* margin-left: -60px; */
+}
+
+.search__find:hover {
+    opacity: 0.7;
+    cursor: pointer;
 }
 
 .search__filter {
@@ -70,6 +88,9 @@ input+label.search_shortilms_label {
     background-repeat:  no-repeat;
     cursor: pointer;
   
+  }
+  .search_shortilms {
+      visibility: hidden;
   }
 
 .search_shortilms_label {

@@ -16,7 +16,7 @@ function SearchForm () {
             <form name="Search" title="search" className='search__form'> 
 
             <div className='search__query'>
-                <div className="search__field"><input type="text" value='' placeholder="Фильм" name="film" minLength={2} required id="title" /></div>
+                <input type="text" className="search__field" value='' placeholder="Фильм" name="film" minLength={2} required id="title" />
                 <button className="search__find" type="submit" id="searchButton" aria-label="поиск">Найти</button>
             </div>
             <div className='search__filter'>

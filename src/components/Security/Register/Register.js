@@ -8,11 +8,15 @@ function register (){
         <section className="auth">
       
       <div className="auth__form">
-      <img src={logo} className='auth__logo' alt='Логотип' ></img>  
+        <div className='auth__header'>
+        <a href='/' className='auth__to-main'><img src={logo} className='auth__logo' alt='Логотип' ></img></a>  
         <p className="auth__form_title">
           Добро пожаловать!
+          
         </p>
+        </div>
         <form  >
+          
         <p className='auth__form_name'>Имя</p>
           <input 
             id="user_name" 

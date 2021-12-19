@@ -24,6 +24,7 @@
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
+    align-items: center;
     
 }
 
@@ -42,5 +43,30 @@
     font-weight: 400;
     font-size: 13px;
     line-height: 16px;
+    
+}
+
+@media screen and (max-width: 500px) {
+    .footer__title {
+          font-size: 12px;
+        line-height: 15px;
+    }
+    .footer__main {
+        display: flex;
+        flex-direction: column;
+        flex-flow: column-reverse;
+        justify-content: space-between;
+        padding-top: 20px;
+        align-items: center;
+        row-gap: 30px;
+        
+    }
+    .footer__links {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 12px;
+    }
+
     
 }

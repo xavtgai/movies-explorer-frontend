@@ -12,10 +12,13 @@ import './Movies.css';
 function Movies (props) {
     return (
         <section className='movies'>
-                    <Header />
+            <Header />
+            <main className='content'> 
+                    
         <SearchForm />
         <MoviesCardList cards={props.cards} location = {props.location.pathname} />
         {/* <Preloader /> */}
+        </main>
         <Footer />
     </section>
     )
