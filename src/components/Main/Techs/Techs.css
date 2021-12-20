@@ -89,5 +89,6 @@ margin-bottom: 90px;
 @media screen and (max-width: 500px) {
     .techs {
         padding: 70px 18px;
+        background-color: #202020;
         }
 }

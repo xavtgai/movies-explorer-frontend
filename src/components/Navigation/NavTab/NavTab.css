@@ -1,10 +1,8 @@
 .navigation {
-position: relative;
 box-sizing: border-box;
 width: 520px;
 height: 970px;
 background-color: #202020;
-color: red;
 font-weight: 900;
 font-size: 50;
 position: absolute;
@@ -18,6 +16,7 @@ z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     box-sizing: border-box;
        
 }
@@ -28,11 +27,12 @@ z-index: 2;
     bottom: 55px;
 }
 .header__profile-icon {
-    width: 11.5px;
-    height: 14px;
+    width: 26px;
+    height: 30px;
     background-color: #313131;
     background-size: 26px 30px;
     border-radius: 4px;
+    margin-bottom: -8px;
 }
 
 .navigation__item {
@@ -56,4 +56,13 @@ z-index: 2;
 }
 .navigation__hidden {
      display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .navigation {
+    width: 100%;
+    height: 100vh;
+    padding-left: 10px;
+    padding-right: 10px;
+    }
 }

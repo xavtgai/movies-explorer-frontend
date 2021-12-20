@@ -71,7 +71,12 @@ line-height: 17px;
     
     
 }
-
+@media  screen and (max-width: 1080px) {
+    .student__main {
+        column-gap: 20px;
+    }
+    
+}
 @media screen and (max-width: 700px) {
     .student {
         padding-left: 14px;
@@ -81,12 +86,14 @@ line-height: 17px;
               flex-direction: column;
               flex-flow: column-reverse;
               row-gap: 40px;
+              
             }
         
      .student__image {
           width: 100%;
           
           margin: auto;
+
       }
     .student__about {
         font-size: 11px;
