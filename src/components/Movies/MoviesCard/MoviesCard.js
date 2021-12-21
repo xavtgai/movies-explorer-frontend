@@ -11,7 +11,7 @@ function Film(props) {
 return (    
     <li className="film">
 
-            <img className="film__image" src={dummy} alt={`Изображение ${props.card.nameRU}`}  />
+            <img className="film__image" src={'https://api.nomoreparties.co' + props.card.image.url} alt={`Изображение ${props.card.nameRU}`}  />
             <div className="film__legend">
 
               <h2 className="film__title">{props.card.nameRU}</h2>
