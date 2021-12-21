@@ -1,6 +1,5 @@
 import React from 'react';
 //import {BASE_DOMAIN} from '../../../utils/constants';
-import dummy from '../../../images/dummy.png';
 import './MoviesCard.css';
 
 function Film(props) {
