@@ -22,17 +22,18 @@ z-index: 2;
 }
 
 .navigation__account {
-    /* padding-top: 595px; */
+    
     position: absolute;
     bottom: 55px;
-}
+    }
+
 .header__profile-icon {
     width: 26px;
     height: 30px;
     background-color: #313131;
     background-size: 26px 30px;
     border-radius: 4px;
-    margin-bottom: -8px;
+    
 }
 
 .navigation__item {
@@ -58,6 +59,11 @@ z-index: 2;
      display: none;
 }
 
+@media screen and (max-width: 770px) {
+    .header__profile-icon {
+        margin-bottom: -8px;
+    }
+}
 @media screen and (max-width: 500px) {
     .navigation {
     width: 100%;
@@ -65,4 +71,5 @@ z-index: 2;
     padding-left: 10px;
     padding-right: 10px;
     }
+  
 }
