@@ -1,0 +1,21 @@
+@import url(vendor/normalize.css);
+@import url(vendor/fonts.css);
+
+
+.page {
+
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+   text-rendering: optimizeLegibility;
+   min-width: 320px;
+   margin: 0 auto;
+   box-sizing: border-box;
+   color: white;
+   background-color: #202020;
+   position: relative;
+ 
+}
+.content  {
+  position: relative;
+}
+

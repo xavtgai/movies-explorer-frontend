@@ -1,0 +1,112 @@
+.search__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.search__query {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2F2F2F;
+    border-radius: 40px;
+    height: 46px;
+    padding-right: 3px;
+    margin-bottom: 42px;
+}
+.search__field {
+    background-color: #2F2F2F;
+    margin: 0;
+    border: none;
+    text-align: left;
+    margin-left: 22px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    width: 92%;
+    
+}
+.search__field:hover {
+    opacity: 0.7;
+    }
+
+.search__field:focus {
+    background-color: #48484d;
+    outline: none;
+    border-radius: 10px;
+    height: 70%;
+}
+
+.search__find {
+    background-color: #4285F4;
+    border-radius: 48px;
+    width: 59px;
+    height: 34px;
+    font-weight: 500;
+    font-size: 11px;
+    color: white;
+    line-height: 18px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    border: none;
+    /* margin-left: -60px; */
+}
+
+.search__find:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.search__filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding:0;
+    margin: 0;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #424242;
+    width: 100%;
+}
+.search__filter_title {
+    margin:0;
+    margin-left: 12px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    
+}
+
+input+label.search_shortilms_label {
+    display: inline;
+    overflow: hidden;
+    margin:0;
+    
+    background-size: contain;
+    background-repeat:  no-repeat;
+    cursor: pointer;
+  
+  }
+  .search_shortilms {
+      visibility: hidden;
+  }
+
+.search_shortilms_label {
+    width: 36px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background: url('../../../images/shortfilms_off.svg');
+    border: none;
+    padding:0;
+    margin:0;
+
+}
+.search_shortilms:checked ~ .search_shortilms_label {
+        background: url('../../../images/shortfilms.svg');
+        }
+.search_shortilms_label:hover {
+    opacity: 0.7;
+}
