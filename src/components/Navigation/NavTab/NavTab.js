@@ -1,7 +1,7 @@
 import React from 'react';
 import './NavTab.css';
 
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import profile_icon from '../../../images/profile_icon.svg';
 
 function Navigation (props) {

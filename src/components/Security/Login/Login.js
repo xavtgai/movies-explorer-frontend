@@ -2,8 +2,38 @@ import React from 'react';
 import logo from '../../../images/logo.svg';
 import '../Security.css';
 import './Login.css';
+import { withRouter } from 'react-router-dom';
 
-function login(){
+class Login extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    
+  }
+  handleChange(e) {
+    const {name, value} = e.target;
+    this.setState({
+      [name]: value 
+    });
+  }
+  handleSubmit(e){
+    e.preventDefault();
+  if (!this.state.email || !this.state.password){
+    return;
+  }
+  this.props.onLogin({
+    password: this.state.password,
+    email: this.state.email,
+  });
+  this.setState({email: '', password: ''});
+} 
+
+  render(){
     return(
         <section className="auth">
       
@@ -14,7 +44,7 @@ function login(){
           Рады видеть!
         </p>
         </div>
-        <form  >
+        <form   onSubmit={this.handleSubmit} >
         <p className='auth__form_name'>E-mail</p>
           <input 
             id="email" 
@@ -22,8 +52,10 @@ function login(){
             placeholder="Email" 
             autoComplete="email"
             type="text" 
-       //     value={this.state.email} 
+            value={this.state.email} 
+            onChange={this.handleChange}
            className="auth__form_input"/>
+           
          <p className='auth__form_name'>Пароль</p>
           <input 
             id="password" 
@@ -31,7 +63,8 @@ function login(){
             placeholder="Пароль" 
             autoComplete = "current-password"
             type="password" 
-     //       value={this.state.password} 
+            value={this.state.password}
+            onChange={this.handleChange} 
             className="auth__form_input"/>
             
             <div className="auth__button-container">
@@ -45,5 +78,6 @@ function login(){
         </section>
     )
   }
+}
 
-  export default login;
+export default withRouter(Login);

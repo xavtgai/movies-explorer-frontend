@@ -1,9 +1,40 @@
 import React from 'react';
 import logo from '../../../images/logo.svg';
+import { Link, withRouter } from 'react-router-dom';
 import '../Security.css';
 import './Register.css';
 
-function register (){
+class Register extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {  
+        password: '',
+      email: '',
+     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+  handleChange(e) {
+    const {name, value} = e.target;
+    this.setState({
+      [name]: value 
+    });
+  }
+
+   handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+    // Передаём значения управляемых компонентов во внешний обработчик
+    this.props.onRegister({
+      password: this.state.password,
+      email: this.state.email,
+      name: this.state.user_name,
+    });
+    console.log(this.state.password, this.state.email, this.state);
+  } 
+
+   render(){
     return(
         <section className="auth">
       
@@ -15,7 +46,7 @@ function register (){
           
         </p>
         </div>
-        <form  >
+        <form  onSubmit={this.handleSubmit}>
           
         <p className='auth__form_name'>Имя</p>
           <input 
@@ -24,6 +55,8 @@ function register (){
             placeholder="Имя" 
             autoComplete="Васисуалий"
             type="text" 
+            value={this.state.name}
+            onChange={this.handleChange} 
             className="auth__form_input"/>
         
         <p className='auth__form_name'>E-mail</p>
@@ -33,7 +66,8 @@ function register (){
             placeholder="Email" 
             autoComplete="email"
             type="text" 
-       //     value={this.state.email} 
+            value={this.state.email}
+            onChange={this.handleChange} 
            className="auth__form_input"/>
          <p className='auth__form_name'>Пароль</p>
           <input 
@@ -42,12 +76,13 @@ function register (){
             placeholder="Пароль" 
             autoComplete = "current-password"
             type="password" 
-     //       value={this.state.password} 
+            value={this.state.password} 
+            onChange={this.handleChange}
             className="auth__form_input"/>
             
             <div className="auth__button-container">
               <button type="submit" className="register__form_button">Зарегистрироваться</button>
-              <p className='auth__question'>Уже зарегистрированы?<span ><a href='/signin' className='auth__alternative-action'>Войти</a></span></p>
+              <p className='auth__question'>Уже зарегистрированы?<span ><Link to='/signin' className='auth__alternative-action'>Войти</Link></span></p>
             </div>
 
         </form>
@@ -56,5 +91,5 @@ function register (){
         </section>
     )
   }
-
-  export default register;
+}
+  export default withRouter(Register);
