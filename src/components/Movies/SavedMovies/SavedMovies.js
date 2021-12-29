@@ -11,7 +11,7 @@ function SavedMovies (props) {
     return (
         <section className='movies'>
         
-        <Header />
+        <Header onLogout={props.onLogout} loggedIn = {props.loggedIn} />
         <main className='content'>
         <SearchForm />
         <MoviesCardList cards={props.cards} location = {props.location.pathname} />

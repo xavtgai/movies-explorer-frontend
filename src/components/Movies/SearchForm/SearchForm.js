@@ -2,14 +2,13 @@ import React from 'react';
 import './SearchForm.css';
 import {useState} from "react";
 
-function SearchForm () {
+function SearchForm (props) {
 
-    const [isChange, setIsChange] = useState(false);
+    const [filterShort, setFilterShort] = props.filterShorts;
 
     function handleToggle () {
-      setIsChange(!isChange);
+      setFilterShort(!filterShort);
     }
-
 
     return (
         <section className='search'>
@@ -20,7 +19,7 @@ function SearchForm () {
                 <button className="search__find" type="submit" id="searchButton" aria-label="поиск">Найти</button>
             </div>
             <div className='search__filter'>
-            <input className='search_shortilms' id='filter' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}>
+            <input className='search_shortilms' id='filter' type="checkbox" checked={filterShort} onChange={()=>{}} onClick= {handleToggle}>
             </input>
             <label htmlFor="filter" className='search_shortilms_label'></label>
             

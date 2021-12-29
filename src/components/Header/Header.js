@@ -1,16 +1,13 @@
 import React from 'react';
 import { Link, NavLink, withRouter} from 'react-router-dom';
 import profile_icon from '../../images/profile_icon.svg';
-// import {path} from '../../utils/constants';
 import Navigation from '../Navigation/NavTab/NavTab';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import './Header.css';
 import logo from '../../images/logo.svg';
 import {useState} from "react";
 
 function Header(props){
 
-  const currentUser = React.useContext(CurrentUserContext);
     const [isChange, setIsChange] = useState(false);
 
     function handleToggle () {
@@ -19,19 +16,15 @@ function Header(props){
 
     let loggedIn = props.loggedIn;
     let action;
-    let hello;
     let buttonLink;
     let movies = "./movies";
     let saved_movies = './saved-movies';
     let profile_link = './profile';
       
-    let title = currentUser.name;
-     if (loggedIn) {action = 'Выйти';
-       hello = title;
-       buttonLink = '/';
+    if (loggedIn) {action = 'Выйти';
+        buttonLink = '/';
       } else {
         action = 'Войти';
-        hello = 'Регистрация';
         buttonLink = "./signin";
        }
      
@@ -47,19 +40,19 @@ function Header(props){
     <div className='header__main-links'>
         <NavLink
               to={buttonLink}
-              className = {props.location.pathname === "/" ?  "header__navlink header__registration" :   "header__navlink_invisible"} 
+              className = {!loggedIn ?  "header__navlink header__registration" :   "header__navlink_invisible"} 
         >
-              {hello}
+              Регистрация
             </NavLink>
             <Link
               to={buttonLink}
-              className = {props.location.pathname === "/" ?  "header__button" :   "header__navlink_invisible"} 
+              className = {!loggedIn  ?  "header__button" :   "header__navlink_invisible"} 
             onClick = {props.onLogout}
             >
               {action}
             </Link>
             </div>
-            {props.location.pathname !== "/" ? 
+            {loggedIn ? 
             <><input className='header__menu_checkbox' id='menu' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}>
             </input>
             <label htmlFor="menu" className='header__menu'></label>
@@ -72,19 +65,19 @@ function Header(props){
               }
             <div 
          
-            className = {props.location.pathname === "/" ?  "header__navlinks_invisible" :   "header__navlinks"}
+            className = {!loggedIn ?  "header__navlinks_invisible" :   "header__navlinks"}
             >
               
                 <div className='header__movie-links'>
                     <NavLink
                         to={movies}
-                        className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink header__films" } 
+                        className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink header__films" } 
                       >
                         Фильмы
                       </NavLink>
                       <NavLink
                         to={saved_movies}
-                        className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink"} 
+                        className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink"} 
                       >
                         Сохранённые фильмы
                       </NavLink>
@@ -92,7 +85,7 @@ function Header(props){
 
                 <NavLink
                   to={profile_link}
-                  className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink header__account"} 
+                  className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink header__account"} 
                 >
                 Аккаунт <img src={profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
                 </NavLink>

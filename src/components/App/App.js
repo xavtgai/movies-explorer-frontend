@@ -43,7 +43,7 @@ const handleLogin = React.useCallback(
       if (data){
         setEmail(loginData.email);
         setAuthorizeStatus(true);
-        props.history.push('/');
+        props.history.push('/movies');
         }
   }).catch(err => console.log(err)); 
 },
@@ -86,7 +86,8 @@ function handleRegistration (registrationData) {
   register(registrationData.password, registrationData.email, registrationData.name )
   .then(() => {
     setIsRegistrationSuccessful(true);
-    props.history.push('/signin');
+    setAuthorizeStatus(true);
+    props.history.push('/movies');
      })
     .catch(err => {
       setIsRegistrationSuccessful(false);
@@ -191,12 +192,10 @@ function handleLogout() {
     <Switch>
       <ProtectedRoute path="/profile" component = {Profile} onLogout = {handleLogout} loggedIn = {authorizeStatus}>
       </ProtectedRoute>
-     <ProtectedRoute path="/movies" loggedIn={authorizeStatus}>
-         <Movies cards = {cards} /> 
-     </ProtectedRoute>
-      <ProtectedRoute path="/saved-movies" loggedIn={authorizeStatus}>
-           <SavedMovies cards = {cards} /> 
-      </ProtectedRoute>
+     <ProtectedRoute path="/movies" component = {Movies} loggedIn={authorizeStatus}  cards = {cards}>
+              </ProtectedRoute>
+      <ProtectedRoute path="/saved-movies" component = {SavedMovies} cards = {cards} loggedIn={authorizeStatus}>
+            </ProtectedRoute>
       <Route path="/signin"> 
           <Login onLogin = {handleLogin}/>
      </Route>

@@ -3,17 +3,16 @@ import '../Security.css';
 import './Profile.css';
 
 import Header from '../../Header/Header';
-import {MAIN_PAGE} from '../../../utils/constants';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 
-function Profile(){
+function Profile(props){
   const currentUser = React.useContext(CurrentUserContext);
 
 
     return(
 
         <section className="auth">
-      <Header />
+      <Header  onLogout={props.onLogout} loggedIn = {props.loggedIn} />
       
       <div className="profile__form">
               <p className="profile__title">
@@ -25,7 +24,7 @@ function Profile(){
 
             <div className="profile__actions">
               <button className="profile__edit">Редактировать</button>
-              <a href={`${MAIN_PAGE}signout`} className='profile__logout'>Выйти из аккаунта</a>
+              <button className="profile__logout" onClick = {props.onLogout} >Выйти из аккаунта</button>
             </div>
         </div>
         </section>

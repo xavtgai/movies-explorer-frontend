@@ -4,8 +4,11 @@ import './MoviesCard.css';
 
 function Film(props) {
   const Duration = (duration) => {
-    return (`${Math.round(duration/60)}ч ${duration%60}мин`)
-  }
+    if (duration > 60) {
+      return `${Math.round(duration/60)} ч ${duration%60} мин`
+    } 
+    else {return `${duration%60} мин` } 
+      }
 
 return (    
     <li className="film">
