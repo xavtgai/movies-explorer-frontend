@@ -14,6 +14,8 @@ import api from '../../utils/MainApi';
 import movie_api from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
+import EditProfilePopup from '../Security/Profile/EditProfile';
+
 //import {getContent} from '../utils/Auth';
 
 function App(props) {
@@ -106,7 +108,7 @@ function closeAllPopups () {
   
   function handleUpdateUser (userData) {    
 
-    api.profileEdit(userData.name, userData.about)
+    api.profileEdit(userData.name, userData.email)
            .then((data) => {       
              setCurrentUser(data.data);
              closeAllPopups ()
@@ -179,7 +181,7 @@ function handleLogout() {
         .then((data) => {
           if (data){
             setAuthorizeStatus(false);
-            props.history.push('/signin');
+            props.history.push('/');
            }
       }).catch(err => console.log(err)); 
    }
@@ -190,9 +192,17 @@ function handleLogout() {
         
     <div className="page">
     <Switch>
-      <ProtectedRoute path="/profile" component = {Profile} onLogout = {handleLogout} loggedIn = {authorizeStatus}>
+      <ProtectedRoute path="/profile" component = {Profile}
+       onLogout = {handleLogout} 
+       loggedIn = {authorizeStatus}
+       onEditProfile = {handleEditProfileClick}
+       >
       </ProtectedRoute>
-     <ProtectedRoute path="/movies" component = {Movies} loggedIn={authorizeStatus}  cards = {cards}>
+     <ProtectedRoute path="/movies" component = {Movies} 
+              loggedIn={authorizeStatus}
+              cards = {cards}
+              onCardLike = {handleCardLike}
+              >
               </ProtectedRoute>
       <ProtectedRoute path="/saved-movies" component = {SavedMovies} cards = {cards} loggedIn={authorizeStatus}>
             </ProtectedRoute>
@@ -209,7 +219,10 @@ function handleLogout() {
  
   <Route component={NotFoundPage} />
     </Switch> 
-    
+    <EditProfilePopup 
+      isOpen={isEditProfilePopupOpen} 
+      onClose={closeAllPopups} 
+      onUpdateUser={handleUpdateUser }/> 
     
 </div>
 </CurrentUserContext.Provider>

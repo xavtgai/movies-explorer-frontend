@@ -17,6 +17,7 @@ function MoviesCardList (props) {
                 key = {card.id}
                  card={card} 
                  url = {props.location}
+                onCardLike = {props.onCardLike}
             />
             )
             )

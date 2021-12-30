@@ -23,7 +23,7 @@ function Profile(props){
         <p className='profile__field'><span className='profile__field_title'>E-mail</span><span className='profile__field_value'>{currentUser.email}</span></p>
 
             <div className="profile__actions">
-              <button className="profile__edit">Редактировать</button>
+              <button className="profile__edit" onClick = {props.onEditProfile}>Редактировать</button>
               <button className="profile__logout" onClick = {props.onLogout} >Выйти из аккаунта</button>
             </div>
         </div>

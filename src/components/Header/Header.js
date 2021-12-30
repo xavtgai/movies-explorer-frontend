@@ -21,13 +21,7 @@ function Header(props){
     let saved_movies = './saved-movies';
     let profile_link = './profile';
       
-    if (loggedIn) {action = 'Выйти';
-        buttonLink = '/';
-      } else {
-        action = 'Войти';
-        buttonLink = "./signin";
-       }
-     
+   
   return (
 <header className="header">
   
@@ -39,17 +33,16 @@ function Header(props){
   <div className='header__links'>
     <div className='header__main-links'>
         <NavLink
-              to={buttonLink}
+              to='/signup'
               className = {!loggedIn ?  "header__navlink header__registration" :   "header__navlink_invisible"} 
         >
               Регистрация
             </NavLink>
             <Link
-              to={buttonLink}
+              to='/signin'
               className = {!loggedIn  ?  "header__button" :   "header__navlink_invisible"} 
-            onClick = {props.onLogout}
             >
-              {action}
+              Войти
             </Link>
             </div>
             {loggedIn ? 

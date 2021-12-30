@@ -35,14 +35,14 @@ class Api {
         return fetch(`${this.baseurl}/${urls.user}`, { headers: this.headers, credentials: this.credentials })
             .then(this._handleResponse);
     }
-    profileEdit(user_name, user_description) {
+    profileEdit(user_name, user_email) {
         return fetch(`${this.baseurl}/users/me`, {
                 method: 'PATCH',
                 headers: this.headers,
                 credentials: this.credentials,
                 body: JSON.stringify({
                     name: user_name,
-                    about: user_description
+                    email: user_email
                 })
             })
             .then(this._handleResponse);

@@ -29,7 +29,7 @@ function Movies (props) {
                     
         <SearchForm filterShorts= {filterShorts}/>
 
-        <MoviesCardList cards={cardsToShow} location = {props.location.pathname} />
+        <MoviesCardList cards={cardsToShow} location = {props.location.pathname} onCardLike = {props.onCardLike} />
         {/* <Preloader /> */}
         </main>
         <Footer />
