@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink, withRouter} from 'react-router-dom';
 import profile_icon from '../../images/profile_icon.svg';
+import profile_icon_main from '../../images/profile_icon_main.svg';
 import Navigation from '../Navigation/NavTab/NavTab';
 import './Header.css';
 import logo from '../../images/logo.svg';
@@ -80,7 +81,7 @@ function Header(props){
                   to={profile_link}
                   className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink header__account"} 
                 >
-                Аккаунт <img src={profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
+                Аккаунт <img src={props.location.pathname === "/" ? profile_icon_main : profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
                 </NavLink>
                 </div>
                 </div>

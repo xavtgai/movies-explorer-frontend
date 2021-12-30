@@ -20,7 +20,6 @@ import EditProfilePopup from '../Security/Profile/EditProfile';
 
 function App(props) {
 
-const [loggedIn, setLoggedIn] = React.useState(false);
 const [currentUser , setCurrentUser] = React.useState({});
 React.useEffect(() => {
   function getUser () {      
@@ -58,24 +57,11 @@ React.useEffect(() => {
       .catch(err => console.log(err));
 }, [handleTokenCheck]);
 
-const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-function handleEditAvatarClick () {
-    setIsEditAvatarPopupOpen(true);
-}
-
 const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
 function handleEditProfileClick () {
   setIsEditProfilePopupOpen(true);
 }
 
-const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-function handleAddPlaceClick () {
-  setIsAddPlacePopupOpen(true);
-}
-const [isDeleteConfirmationPopupOpen, setIsDeleteConfirmationPopupOpen] = React.useState(false);
-function handleDeleteConfirmationClick () {
-  setIsDeleteConfirmationPopupOpen(true);
-}
 const [selectedCard, setSelectedCard] = React.useState(null);
 
 function handleCardClick(cardParams) {
@@ -99,11 +85,8 @@ function handleRegistration (registrationData) {
 }
 
 function closeAllPopups () {
-    setIsEditAvatarPopupOpen(false);
-    setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setSelectedCard(null);
-
   }  
   
   function handleUpdateUser (userData) {    
@@ -116,16 +99,7 @@ function closeAllPopups () {
    .catch((error) => console.log(error))
  }
    
- function handleUpdateAvatar (data) {
-  api.avatarReplace(data.avatar)
-         .then((data) => {   
-           console.log(data);    
-           setCurrentUser(data.data);
-           closeAllPopups ()
- })
- .catch((error) => console.log(error))
-console.log(currentUser);
-}  
+ 
 //карточки
 const [cards, setCards] = React.useState([]);
 
@@ -143,29 +117,29 @@ React.useEffect(() => {
   []
   );  
 
-  function handleAddPlaceSubmit(newCard) {    
+const [savedCards, setSavedCards] = React.useState([]);
+  
+React.useEffect(()=> {
 
-    api.addCard(newCard.name, newCard.link)
-           .then((newCard) => { 
-             console.log("cards", cards);      
-            setCards([newCard, ...cards]); 
-            closeAllPopups ()
-   })
-   .catch((error) => console.log(error))
+  function getSavedCards(cards, currentUser){
+     setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));
+    } 
+    getSavedCards(cards, currentUser);
+  },
+  [cards, currentUser]
+);  
+
+
+   function handleCardLike(card) {
+      // проверяем, есть ли уже лайк на этой карточке
+     const isLiked = currentUser.likedFilms.some(i => i === card.id);
+    api.changeLike(card.id, isLiked)
+      .then((renewedUser) => {
+        //  список лайков текущего пользователя обновился, поэтому обновляем текущего пользователя и соотве
+          setCurrentUser(renewedUser);
+        })
       }
-
-  function handleCardLike(card) {
-    // проверяем, есть ли уже лайк на этой карточке
-
-   const isLiked = card.likes.some(i => i === currentUser._id);
-
-   api.changeLike(card._id, isLiked)
-    .then((newCard) => {
-         console.log("newcard", newCard);
-         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-       })
-    }
-   
+    
 function handleCardDelete (card) {  
 api.deleteCard(card._id)
     .then(() => {
@@ -186,6 +160,7 @@ function handleLogout() {
       }).catch(err => console.log(err)); 
    }
 
+   console.log("saved", savedCards);
     return (   
     
       <CurrentUserContext.Provider value={currentUser}>
@@ -204,8 +179,12 @@ function handleLogout() {
               onCardLike = {handleCardLike}
               >
               </ProtectedRoute>
-      <ProtectedRoute path="/saved-movies" component = {SavedMovies} cards = {cards} loggedIn={authorizeStatus}>
-            </ProtectedRoute>
+      <ProtectedRoute path="/saved-movies" component = {SavedMovies} 
+                cards = {savedCards}
+                loggedIn={authorizeStatus}
+                onCardLike = {handleCardLike}
+                >
+       </ProtectedRoute>
       <Route path="/signin"> 
           <Login onLogin = {handleLogin}/>
      </Route>

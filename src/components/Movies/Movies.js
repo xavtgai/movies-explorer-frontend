@@ -12,12 +12,15 @@ import './Movies.css';
 
 function Movies (props) {
 
+    const [cards, setCards] = useState('cards', []);
     const filterShorts = useState(false);
     const toFilter = filterShorts[0];
     const shortFilms = props.cards.filter((card) => { return card.duration < 60});
     let cardsToShow = props.cards;
-    if (filterShorts) {
+
+    if (toFilter) {
         cardsToShow = shortFilms;
+        console.log(filterShorts);
         console.log(cardsToShow);
     } 
 
@@ -29,8 +32,11 @@ function Movies (props) {
                     
         <SearchForm filterShorts= {filterShorts}/>
 
-        <MoviesCardList cards={cardsToShow} location = {props.location.pathname} onCardLike = {props.onCardLike} />
-        {/* <Preloader /> */}
+        <MoviesCardList cards={cardsToShow} 
+            location = {props.location.pathname} 
+            onCardLike = {props.onCardLike}
+             />
+            {/* <Preloader /> */}
         </main>
         <Footer />
     </section>

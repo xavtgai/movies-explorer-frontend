@@ -12,11 +12,8 @@ function Film(props) {
 
     function toggleLike () {
       props.onCardLike(props.card);
-          
+               
   }
-    function removeFilm () {
-      props.onRemoveFilm(props.card);
-    }
   
   const Duration = (duration) => {
     if (duration > 60) {
@@ -24,17 +21,26 @@ function Film(props) {
     } 
     else {return `${duration%60} мин` } 
       }
-
+    
+    const isLiked = () => {
+      if (currentUser.likedFilms !==[]) {return currentUser.likedFilms.some(i => i === props.card.id)}
+      else {
+        return false;
+      }
+    }
+    const filmLikeButtonClassName = (
+      `${isLiked() ? 'film__liked' : 'film__like'}`
+       );
+    
 return (    
     <li className="film">
 
-            <a href={props.card.trailerLink} target='_blank' rel='noreferrer' class='film__trailer'><img className="film__image" src={'https://api.nomoreparties.co' + props.card.image.url} alt={`Изображение ${props.card.nameRU}`}  /></a>
+            <a href={props.card.trailerLink} target='_blank' rel='noreferrer' className='film__trailer'><img className="film__image" src={'https://api.nomoreparties.co' + props.card.image.url} alt={`Изображение ${props.card.nameRU}`}  /></a>
             <div className="film__legend">
-
               <h2 className="film__title">{props.card.nameRU}</h2>
-              <button type="button"
-              className = {props.url === "/movies" ?  "film__like" : "film__delete"} 
-              onClick = {props.url === "/movies" ? toggleLike : removeFilm}
+              <button type="button" id = 'like-button'
+              className = {props.url === "/movies" ?  filmLikeButtonClassName : "film__delete"} 
+              onClick = { toggleLike }
               >
 
               </button>

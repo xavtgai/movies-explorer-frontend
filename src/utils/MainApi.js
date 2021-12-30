@@ -67,6 +67,23 @@ class Api {
             })
             .then(this._handleResponse);
     }
+    saveFilm(movie_id) {
+        return fetch(`${this.baseurl}/movies/${movie_id}/likes`, {
+            method: 'PUT',
+            credentials: this.credentials,
+            headers: this.headers
+        })
+        .then(this._handleResponse)
+    }
+    removeFilm(movie_id) {
+        return fetch(`${this.baseurl}/movies/${movie_id}/likes`, {
+            method: 'DELETE',
+            credentials: this.credentials,
+            headers: this.headers
+        })
+        .then(this._handleResponse)
+    }
+
     addLike(card_id) {
         return fetch(`${this.baseurl}/cards/${card_id}/likes`, {
                 method: 'PUT',
@@ -85,7 +102,7 @@ class Api {
     }
 
     changeLike(card_id, isLiked) {
-        return isLiked ? this.removeLike(card_id) : this.addLike(card_id);
+        return isLiked ? this.removeFilm(card_id) : this.saveFilm(card_id);
     }
 
     getCards() {

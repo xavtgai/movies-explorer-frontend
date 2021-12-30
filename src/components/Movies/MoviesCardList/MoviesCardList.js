@@ -4,10 +4,9 @@ import Film from '../MoviesCard/MoviesCard';
 
 function MoviesCardList (props) {
     const initialMovies = props.cards.slice(0, 12);
-    const allFilms = props.cards;
+    //const allFilms = props.cards;
  //   const shortFilms = props.cards.filter((card) => {if (card.duration < 60) {return card}});
-    
-    
+        
     return (
 <section className='movies__frame'>
         <ul className="movies__list">
@@ -18,6 +17,7 @@ function MoviesCardList (props) {
                  card={card} 
                  url = {props.location}
                 onCardLike = {props.onCardLike}
+                
             />
             )
             )

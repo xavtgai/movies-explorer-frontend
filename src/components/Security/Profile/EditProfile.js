@@ -31,7 +31,7 @@ function handleSubmit(e) {
       email: email,
     });
   } 
-
+  
 return (
 <div className={`popup popup_type_profile ${props.isOpen ? 'popup_visible': ''}`}>
 <div className="popup__content">
