@@ -149,6 +149,29 @@ api.deleteCard(card._id)
       console.log(error);
     })
 }
+const [filmsToShow, setFilmsToShow] = React.useState([]);
+const [films, setFilms] = React.useState([]);
+
+function searchMovie(films) {
+  setFilmsToShow(films);
+  console.log('films to show', films);
+}
+
+const [searchIsDone, setSearchIsDone] = React.useState(false);
+const [query, setQuery] = React.useState('');
+
+function searchFilm () {
+  let searchQuery = document.querySelector('.search__field').value.toLowerCase();
+  console.log("query", searchQuery);
+  const foundCards = cards.filter((i) => i.nameRU.toLowerCase().includes(searchQuery));
+  setFilms(foundCards);
+  setSearchIsDone(true);
+  setQuery(searchQuery);
+  console.log("found films", films);
+  // setCards(cards.filter((i) => cards.NameRu.toLowerCase().includes(query.toLowerCase())));
+}
+ console.log("qu", query);
+
 
 function handleLogout() {
         api.logout()
@@ -160,7 +183,7 @@ function handleLogout() {
       }).catch(err => console.log(err)); 
    }
 
-   console.log("saved", savedCards);
+   
     return (   
     
       <CurrentUserContext.Provider value={currentUser}>
@@ -176,13 +199,20 @@ function handleLogout() {
      <ProtectedRoute path="/movies" component = {Movies} 
               loggedIn={authorizeStatus}
               cards = {cards}
+              serp = {films}
               onCardLike = {handleCardLike}
+              searchQuery = {searchFilm}
+              search = {searchMovie}
+              searchIsDone = {searchIsDone}
+              query = {query}
               >
               </ProtectedRoute>
       <ProtectedRoute path="/saved-movies" component = {SavedMovies} 
                 cards = {savedCards}
                 loggedIn={authorizeStatus}
                 onCardLike = {handleCardLike}
+                searchQuery = {searchFilm}
+                search = {searchMovie}
                 >
        </ProtectedRoute>
       <Route path="/signin"> 

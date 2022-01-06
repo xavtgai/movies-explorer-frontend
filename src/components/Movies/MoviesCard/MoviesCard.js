@@ -4,7 +4,7 @@ import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import './MoviesCard.css';
 
 function Film(props) {
-  console.log(props.card);
+  //  console.log(props.card);
   const currentUser = React.useContext(CurrentUserContext);
   function handleCardClick () {
         props.onCardClick(props.card)        

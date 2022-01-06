@@ -15,18 +15,15 @@ function SavedMovies (props) {
 
     if (toFilter) {
         cardsToShow = shortFilms;
-        console.log(filterShorts);
-        console.log(cardsToShow);
     } 
-    console.log("films", props.cards);
-
+  
     return (
         <section className='movies'>
         
         <Header onLogout={props.onLogout} loggedIn = {props.loggedIn} />
         <main className='content'>
-        <SearchForm filterShorts= {filterShorts} />
-        <MoviesCardList cards={props.cards} 
+        <SearchForm filterShorts= {filterShorts} searchQuery = {props.searchQuery} />
+        <MoviesCardList cards={cardsToShow} 
         location = {props.location.pathname} 
         onCardLike = {props.onCardLike}
         />
