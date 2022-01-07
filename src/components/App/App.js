@@ -7,7 +7,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../Movies/SavedMovies/SavedMovies';
 import Profile from '../Security/Profile/Profile';
 import NotFoundPage from '../Navigation/Notfound';
-
+import { BASE_URL } from '../../utils/constants';
 import {authorize, register, handleTokenCheck} from '../../utils/Auth';
 import Main from '../Main/Main';
 import api from '../../utils/MainApi';
@@ -20,25 +20,54 @@ import EditProfilePopup from '../Security/Profile/EditProfile';
 
 function App(props) {
 
-const [currentUser , setCurrentUser] = React.useState({});
-React.useEffect(() => {
-  function getUser () {      
-     api.myData()
-            .then((data) => {   
-              setCurrentUser(data.data);
-    })
-    .catch((error) => console.log(error))
-  }
-  getUser()
-},
-[]
-);  
 
+const [checkedIn, setCheckedIn] = React.useState(false);
 const [authorizeStatus, setAuthorizeStatus] = React.useState(false);
+
+const checkToken = React.useCallback(() => {
+  return fetch(`${BASE_URL}/users/me`, {
+     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',      
+    },
+    credentials: 'include',
+  })
+  .then((res) => {
+    if (res.status === 200) {
+      
+      setAuthorizeStatus(true);
+    }
+  })
+  .catch((err) => {
+    setAuthorizeStatus(false);
+
+    console.log(err);
+  });
+}, [setAuthorizeStatus]);
+
+console.log("check", authorizeStatus);
+
+const [currentUser , setCurrentUser] = React.useState({});
+// React.useEffect(() => {
+
+//   function getUser () {      
+//      api.myData()
+//             .then((data) => {   
+//               setCurrentUser(data.data);
+//     })
+//     .catch((error) => console.log(error))
+//   }
+//   getUser()
+// },
+// []
+// );  
+
+
 const [email, setEmail] = React.useState('email');
 
 const handleLogin = React.useCallback(
   loginData => {
+  console.log("logindata", loginData);
   authorize(loginData.email, loginData.password)
     .then((data) => {
       if (data){
@@ -51,11 +80,11 @@ const handleLogin = React.useCallback(
   [setEmail]
 );
 
-React.useEffect(() => {
-  handleTokenCheck()
-    .then((data)=> setAuthorizeStatus(true))
-      .catch(err => console.log(err));
-}, [handleTokenCheck]);
+// React.useEffect(() => {
+//   handleTokenCheck()
+//     .then((data)=> setAuthorizeStatus(true))
+//       .catch(err => console.log(err));
+// }, [handleTokenCheck]);
 
 const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
 function handleEditProfileClick () {
@@ -72,17 +101,18 @@ const [isRegistrationSuccessful, setIsRegistrationSuccessful] = React.useState(t
 
 function handleRegistration (registrationData) {
   register(registrationData.password, registrationData.email, registrationData.name )
-  .then(() => {
+  .then((data) => {
     setIsRegistrationSuccessful(true);
     setAuthorizeStatus(true);
-    props.history.push('/movies');
+    setCurrentUser(data.data);
+    console.log(data, 'dt');
+    handleLogin({password: registrationData.password, email: registrationData.email});
      })
     .catch(err => {
       setIsRegistrationSuccessful(false);
       console.log(err);
            });
-  
-}
+  }
 
 function closeAllPopups () {
     setIsEditProfilePopupOpen(false);
@@ -118,16 +148,41 @@ React.useEffect(() => {
   );  
 
 const [savedCards, setSavedCards] = React.useState([]);
-  
-React.useEffect(()=> {
 
-  function getSavedCards(cards, currentUser){
-     setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));
-    } 
-    getSavedCards(cards, currentUser);
-  },
-  [cards, currentUser]
-);  
+//экспериментальная аутентификация. Запихиваем все под логин.
+React.useEffect(() => {
+  if (authorizeStatus) {
+    api
+      .myData()
+      .then((data) => setCurrentUser(data.data))
+      .catch((err) => console.log('Не могу получить данные о пользователе с сервера', err));
+    console.log(currentUser, "user");
+    movie_api.getInitialCards()
+    .then((data) => {
+              setCards(data);
+    })
+    .catch((err) => console.log('Не могу получить фильмы с сервера', err));
+   }
+}, [authorizeStatus]);
+
+React.useEffect(() => {
+  if (Object.keys(currentUser).length !== 0) {
+    console.log(currentUser);
+    setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));
+  }
+}, [currentUser]);
+
+// React.useEffect(()=> {
+
+//   function getSavedCards(cards, currentUser){
+//     console.log(currentUser);
+//     if (currentUser)
+//      {setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));}
+//     } 
+//     getSavedCards(cards, currentUser);
+//   },
+//   [cards, currentUser]
+// );  
 
 
    function handleCardLike(card) {
@@ -182,7 +237,9 @@ function handleLogout() {
            }
       }).catch(err => console.log(err)); 
    }
-
+  React.useEffect(() => {
+    checkToken();
+  }, [checkToken]);
    
     return (   
     

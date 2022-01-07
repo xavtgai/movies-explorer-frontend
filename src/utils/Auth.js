@@ -4,6 +4,7 @@ import {BASE_URL} from './constants';
 function handleResponse(response) {
   if (response.ok) {
       return response.json();
+
   }
 
   return Promise.reject(`Ошибка: ${response.status}`)
