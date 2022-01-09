@@ -8,20 +8,17 @@ import SavedMovies from '../Movies/SavedMovies/SavedMovies';
 import Profile from '../Security/Profile/Profile';
 import NotFoundPage from '../Navigation/Notfound';
 import { BASE_URL } from '../../utils/constants';
-import {authorize, register, handleTokenCheck} from '../../utils/Auth';
+import { authorize, register } from '../../utils/Auth';
 import Main from '../Main/Main';
 import api from '../../utils/MainApi';
 import movie_api from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import EditProfilePopup from '../Security/Profile/EditProfile';
-
-//import {getContent} from '../utils/Auth';
+import ProfileUpdatedPopup from '../Security/Profile/ProfileUpdatedPopup';
 
 function App(props) {
 
-
-const [checkedIn, setCheckedIn] = React.useState(false);
 const [authorizeStatus, setAuthorizeStatus] = React.useState(false);
 
 const checkToken = React.useCallback(() => {
@@ -36,39 +33,22 @@ const checkToken = React.useCallback(() => {
     if (res.status === 200) {
       
       setAuthorizeStatus(true);
+      setRecieveServerAnswer(true);
     }
   })
   .catch((err) => {
     setAuthorizeStatus(false);
-
+    setRecieveServerAnswer(true);
     console.log(err);
   });
 }, [setAuthorizeStatus]);
 
-console.log("check", authorizeStatus);
-
 const [currentUser , setCurrentUser] = React.useState({});
-// React.useEffect(() => {
-
-//   function getUser () {      
-//      api.myData()
-//             .then((data) => {   
-//               setCurrentUser(data.data);
-//     })
-//     .catch((error) => console.log(error))
-//   }
-//   getUser()
-// },
-// []
-// );  
-
-
 const [email, setEmail] = React.useState('email');
 
 const handleLogin = React.useCallback(
   loginData => {
-  console.log("logindata", loginData);
-  authorize(loginData.email, loginData.password)
+    authorize(loginData.email, loginData.password)
     .then((data) => {
       if (data){
         setEmail(loginData.email);
@@ -77,25 +57,21 @@ const handleLogin = React.useCallback(
         }
   }).catch(err => console.log(err)); 
 },
-  [setEmail]
+  [setEmail, props.history]
 );
-
-// React.useEffect(() => {
-//   handleTokenCheck()
-//     .then((data)=> setAuthorizeStatus(true))
-//       .catch(err => console.log(err));
-// }, [handleTokenCheck]);
 
 const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
 function handleEditProfileClick () {
   setIsEditProfilePopupOpen(true);
 }
 
-const [selectedCard, setSelectedCard] = React.useState(null);
-
-function handleCardClick(cardParams) {
-    setSelectedCard(cardParams);
-  }
+const [isProfileUpdated, setIsProfileUpdated] = React.useState(false);
+function handleUpdateProfile () {
+  setIsProfileUpdated(true)
+  setTimeout(() => {
+   setIsProfileUpdated(false);
+ }, 2000);
+   }
 
 const [isRegistrationSuccessful, setIsRegistrationSuccessful] = React.useState(true);
 
@@ -105,7 +81,6 @@ function handleRegistration (registrationData) {
     setIsRegistrationSuccessful(true);
     setAuthorizeStatus(true);
     setCurrentUser(data.data);
-    console.log(data, 'dt');
     handleLogin({password: registrationData.password, email: registrationData.email});
      })
     .catch(err => {
@@ -116,7 +91,7 @@ function handleRegistration (registrationData) {
 
 function closeAllPopups () {
     setIsEditProfilePopupOpen(false);
-    setSelectedCard(null);
+    setIsProfileUpdated(false);
   }  
   
   function handleUpdateUser (userData) {    
@@ -124,7 +99,9 @@ function closeAllPopups () {
     api.profileEdit(userData.name, userData.email)
            .then((data) => {       
              setCurrentUser(data.data);
-             closeAllPopups ()
+             closeAllPopups ();
+              handleUpdateProfile();
+             
    })
    .catch((error) => console.log(error))
  }
@@ -149,14 +126,12 @@ React.useEffect(() => {
 
 const [savedCards, setSavedCards] = React.useState([]);
 
-//экспериментальная аутентификация. Запихиваем все под логин.
 React.useEffect(() => {
   if (authorizeStatus) {
     api
       .myData()
       .then((data) => setCurrentUser(data.data))
       .catch((err) => console.log('Не могу получить данные о пользователе с сервера', err));
-    console.log(currentUser, "user");
     movie_api.getInitialCards()
     .then((data) => {
               setCards(data);
@@ -167,25 +142,11 @@ React.useEffect(() => {
 
 React.useEffect(() => {
   if (Object.keys(currentUser).length !== 0) {
-    console.log(currentUser);
     setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));
   }
-}, [currentUser]);
+}, [currentUser, cards]);
 
-// React.useEffect(()=> {
-
-//   function getSavedCards(cards, currentUser){
-//     console.log(currentUser);
-//     if (currentUser)
-//      {setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));}
-//     } 
-//     getSavedCards(cards, currentUser);
-//   },
-//   [cards, currentUser]
-// );  
-
-
-   function handleCardLike(card) {
+  function handleCardLike(card) {
       // проверяем, есть ли уже лайк на этой карточке
      const isLiked = currentUser.likedFilms.some(i => i === card.id);
     api.changeLike(card.id, isLiked)
@@ -195,40 +156,51 @@ React.useEffect(() => {
         })
       }
     
-function handleCardDelete (card) {  
-api.deleteCard(card._id)
-    .then(() => {
-      setCards(cards.filter((i) => i !== card));
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-}
-const [filmsToShow, setFilmsToShow] = React.useState([]);
 const [films, setFilms] = React.useState([]);
-
-function searchMovie(films) {
-  setFilmsToShow(films);
-  console.log('films to show', films);
-}
+const [savedSearchedFilms, setSavedSearchedFilms] = React.useState([]);
 
 const [searchIsDone, setSearchIsDone] = React.useState(false);
+const [searchSavedIsDone, setSearchSavedIsDone] = React.useState(false);
+
 const [query, setQuery] = React.useState('');
+const [savedQuery, setSavedQuery] = React.useState('');
+const [isLoading, setIsLoading] = React.useState(false);
 
-function searchFilm () {
+function searchFilm (isSaved, filterShort) {
   let searchQuery = document.querySelector('.search__field').value.toLowerCase();
-  console.log("query", searchQuery);
-  const foundCards = cards.filter((i) => i.nameRU.toLowerCase().includes(searchQuery));
-  setFilms(foundCards);
-  setSearchIsDone(true);
-  setQuery(searchQuery);
-  console.log("found films", films);
-  // setCards(cards.filter((i) => cards.NameRu.toLowerCase().includes(query.toLowerCase())));
-}
- console.log("qu", query);
+  let searchDomain = cards;
+  setIsLoading(true);
+  if (filterShort) {searchDomain = cards.filter((card) => { return card.duration < 60})};
+  if (isSaved) {searchDomain = savedCards};
+  
+  if (isSaved && filterShort) {
+    searchDomain = savedCards.filter((card) => { return card.duration < 60});
+    
+};
+  
+  const foundCards = searchDomain.filter(function (card) {
+    let ruName = '';
+    let enName = '';
+    if (card.nameRU) {ruName = card.nameRU.toLowerCase()} 
+    if (card.nameEN) {enName = card.nameEN.toLowerCase()}
+    return (ruName.includes(searchQuery) || enName.includes(searchQuery))
+     });
+  
+  if (isSaved) {
+     setSavedSearchedFilms(foundCards);
+    setSearchSavedIsDone(true);
+    setSavedQuery(searchQuery);
+    }
+  else {
+    setFilms(foundCards); 
+    setSearchIsDone(true); 
+    setQuery(searchQuery);
+  };
+  setIsLoading(false);
 
-
-function handleLogout() {
+  }
+ 
+ function handleLogout() {
         api.logout()
         .then((data) => {
           if (data){
@@ -237,11 +209,16 @@ function handleLogout() {
            }
       }).catch(err => console.log(err)); 
    }
+  
+  const [recieveServerAnswer, setRecieveServerAnswer] = React.useState(false);
+
   React.useEffect(() => {
     checkToken();
+    
   }, [checkToken]);
    
-    return (   
+  if (recieveServerAnswer)
+    {return (   
     
       <CurrentUserContext.Provider value={currentUser}>
         
@@ -259,17 +236,20 @@ function handleLogout() {
               serp = {films}
               onCardLike = {handleCardLike}
               searchQuery = {searchFilm}
-              search = {searchMovie}
               searchIsDone = {searchIsDone}
               query = {query}
+              isLoading = {isLoading}
               >
               </ProtectedRoute>
       <ProtectedRoute path="/saved-movies" component = {SavedMovies} 
-                cards = {savedCards}
                 loggedIn={authorizeStatus}
+                cards = {savedCards}
+                serp = {savedSearchedFilms}
                 onCardLike = {handleCardLike}
                 searchQuery = {searchFilm}
-                search = {searchMovie}
+                searchIsDone = {searchSavedIsDone}
+                query = {savedQuery}
+                isLoading = {isLoading}
                 >
        </ProtectedRoute>
       <Route path="/signin"> 
@@ -289,10 +269,19 @@ function handleLogout() {
       isOpen={isEditProfilePopupOpen} 
       onClose={closeAllPopups} 
       onUpdateUser={handleUpdateUser }/> 
+
+      <ProfileUpdatedPopup
+      isOpen = {isProfileUpdated}
+      onClose={closeAllPopups} 
+      />
     
 </div>
 </CurrentUserContext.Provider>
     );
+    }
+    else {
+      return null
+    }
 }
 
 export default withRouter(App);

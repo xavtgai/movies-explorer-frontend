@@ -22,7 +22,7 @@ export const register = (password, email, name) => {
 
 
 export const authorize = (email, password) => {
-  console.log('trying to authorize');
+  
 return fetch(`${BASE_URL}/signin`, {
   method: 'POST',
   headers: {
@@ -33,27 +33,7 @@ return fetch(`${BASE_URL}/signin`, {
   body: JSON.stringify({email, password})
 })
 .then(handleResponse)
-// .then((data) => {
-//   console.log(data);
-//   if (data.token){
-//     localStorage.setItem('token', data.token);
-//     return data;
-//   }
-// })
 };
-
-// export const getContent = (token) => {
-//     return fetch(`${BASE_URL}/users/me`, {
-//       method: 'GET',
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json',
-//         'Authorization': `Bearer ${token}`,
-//       }
-//     })
-//     .then(handleResponse)
-//     .then(data => data)
-//   } 
 
   export const handleTokenCheck = () => {
 

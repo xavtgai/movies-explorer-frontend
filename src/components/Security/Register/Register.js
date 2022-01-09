@@ -31,7 +31,7 @@ class Register extends React.Component {
       email: this.state.email,
       name: this.state.user_name,
     });
-    console.log(this.state.password, this.state.email, this.state);
+    
   } 
 
    render(){

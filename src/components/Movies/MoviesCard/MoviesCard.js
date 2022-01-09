@@ -4,11 +4,8 @@ import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import './MoviesCard.css';
 
 function Film(props) {
-  //  console.log(props.card);
   const currentUser = React.useContext(CurrentUserContext);
-  function handleCardClick () {
-        props.onCardClick(props.card)        
-    }
+
 
     function toggleLike () {
       props.onCardLike(props.card);
@@ -16,7 +13,7 @@ function Film(props) {
   }
   
   const Duration = (duration) => {
-    if (duration > 60) {
+    if (duration >= 60) {
       return `${Math.round(duration/60)} ч ${duration%60} мин`
     } 
     else {return `${duration%60} мин` } 

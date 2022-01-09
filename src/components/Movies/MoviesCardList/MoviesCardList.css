@@ -40,6 +40,10 @@ cursor: pointer;
     padding-bottom: 35px;
 }
 
+.movies__button-invisible {
+    display: none;
+}
+
 @media screen and (max-width: 1150px) {
     
     .movies__list {

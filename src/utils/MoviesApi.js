@@ -23,11 +23,6 @@ class Movie_api {
         return fetch(`${this.baseurl}`, { headers: this.headers, credentials: this.credentials })
             .then(this._handleResponse);
     }
-    getCards() {
-        return fetch(`${this.baseurl}`, { headers: this.headers, credentials: this.credentials })
-            .then(this._handleResponse);
-    }
-
 }
 
 const movie_api = new Movie_api({

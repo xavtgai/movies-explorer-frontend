@@ -14,13 +14,34 @@ useEffect(() => {
     setEmail(currentUser.email);
   }, [currentUser, props.isOpen]); 
 
+
+function activateButton() {
+  let buttonSave = document.getElementById('saveProfile');
+  buttonSave.removeAttribute('disabled');
+  buttonSave.classList.add('popup__save');
+  buttonSave.classList.remove('popup__save_inactive');
+}
+
+function disableButton() {
+  let buttonSave = document.getElementById('saveProfile');
+  buttonSave.setAttribute('disabled', '');
+  buttonSave.classList.remove('popup__save');
+  buttonSave.classList.add('popup__save_inactive');
+}
+
 const handleChangeName = (e) => {
   setName(e.target.value);
+  if (e.target.value.length > 1 && e.target.value.length < 41) {
+    activateButton()
+  }
 }
 
 const handleChangeEmail = (e) => {
   setEmail(e.target.value);
+  if (e.target.value.length > 4 && e.target.value.length < 201) {
+    activateButton()}
 }
+
 
 function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -30,6 +51,7 @@ function handleSubmit(e) {
       name: name,
       email: email,
     });
+    disableButton();
   } 
   
 return (
@@ -42,7 +64,7 @@ return (
                 <span className="popup__error popup__error_name"></span>
                 <input className="popup__field" type="text" value={email || ''} onChange={handleChangeEmail} placeholder="email" name="email" maxLength={200} minLength={4} required id="email"  />
                 <span className="popup__error popup__error_job"></span>
-              <button className="popup__save" type="submit" aria-label="Cохранить изменения">Сохранить</button>
+              <button className="popup__save" type="submit" aria-label="Cохранить изменения"  id='saveProfile' className='popup__save_inactive' disabled>Сохранить</button>
                   </form>
         </div>
  </div>         

@@ -16,8 +16,6 @@ function Header(props){
     }
 
     let loggedIn = props.loggedIn;
-    let action;
-    let buttonLink;
     let movies = "./movies";
     let saved_movies = './saved-movies';
     let profile_link = './profile';

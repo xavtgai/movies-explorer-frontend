@@ -1,21 +1,62 @@
 import React from 'react';
+import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
 import Film from '../MoviesCard/MoviesCard';
 
 function MoviesCardList (props) {
+    const initialCardNum = React.useRef(12);
+    // const [cardsToDisplay, setCardsToDisplay] = React.useState([...props.cards]);
     
-    const initialMovies = props.cards.slice(0, 12);
+    const initialMovies = props.cards.slice(0, initialCardNum.current);
+
     //const allFilms = props.cards;
  //   const shortFilms = props.cards.filter((card) => {if (card.duration < 60) {return card}});
-        
+  const [needMoreFilms, setNeedMoreFilms] = React.useState(false);
+ function addFilms() {
+     setNeedMoreFilms(true); 
+ }
+
+ React.useEffect(() => {
+     if (needMoreFilms) {   
+        let availableWidth = window.screen.width;
+        if (availableWidth > 1150)
+           { initialCardNum.current+=3;
+            setNeedMoreFilms(false);
+            }
+        else if (availableWidth > 700) 
+
+            { if (initialCardNum.current %2 ===0)
+                {initialCardNum.current+=2;
+                setNeedMoreFilms(false);}
+              else {
+                initialCardNum.current+=3;
+                setNeedMoreFilms(false);
+              }
+             }
+        else 
+             { initialCardNum.current+=1;
+              setNeedMoreFilms(false);
+              }
+        }     
+          
+    }, 
+[needMoreFilms]);
+
+let query = '';
+if (props.location === '/movies') query = props.query;
+if (props.location === '/saved-movies') query = props.savedQuery;
+
+
     return (
 <section className='movies__frame'>
+    {props.isLoading ? <Preloader /> : 
         <div className='movies__serp-title'>
             {props.searchIsDone ?
             props.serp.length === 0 ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
             : null                   
             }
             </div>
+    }
         <ul className="movies__list">
               { 
               initialMovies.map((card) => (
@@ -30,8 +71,11 @@ function MoviesCardList (props) {
             )
         }
         </ul>
-        <button className='movies__add-more'>Ещё</button>
-        </section>
+        <button onClick={addFilms} className = { initialCardNum.current <= initialMovies.length 
+            ? 'movies__add-more' : 'movies__button-invisible'} >Ещё</button>
+        
+            </section>
+    
     ) 
 }
 

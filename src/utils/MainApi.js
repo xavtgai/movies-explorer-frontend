@@ -47,26 +47,7 @@ class Api {
             })
             .then(this._handleResponse);
     }
-    addCard(card_title, card_link) {
-        return fetch(`${this.baseurl}/cards`, {
-                method: 'POST',
-                headers: this.headers,
-                credentials: this.credentials,
-                body: JSON.stringify({
-                    name: card_title,
-                    link: card_link
-                })
-            })
-            .then(this._handleResponse);
-    }
-    deleteCard(card_id) {
-        return fetch(`${this.baseurl}/cards/${card_id}`, {
-                method: 'DELETE',
-                credentials: this.credentials,
-                headers: this.headers
-            })
-            .then(this._handleResponse);
-    }
+
     saveFilm(movie_id) {
         return fetch(`${this.baseurl}/movies/${movie_id}/likes`, {
             method: 'PUT',
@@ -103,11 +84,6 @@ class Api {
 
     changeLike(card_id, isLiked) {
         return isLiked ? this.removeFilm(card_id) : this.saveFilm(card_id);
-    }
-
-    getCards() {
-        return fetch(`${this.baseurl}`, { headers: this.headers, credentials: this.credentials })
-            .then(this._handleResponse);
     }
 
     logout() {
