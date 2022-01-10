@@ -31,8 +31,12 @@ const checkToken = React.useCallback(() => {
   })
   .then((res) => {
     if (res.status === 200) {
-      
       setAuthorizeStatus(true);
+      setRecieveServerAnswer(true);
+    }
+    else if (res.status === 401)
+    {
+      setAuthorizeStatus(false);
       setRecieveServerAnswer(true);
     }
   })
@@ -214,7 +218,7 @@ function searchFilm (isSaved, filterShort) {
 
   React.useEffect(() => {
     checkToken();
-    
+   
   }, [checkToken]);
    
   if (recieveServerAnswer)
