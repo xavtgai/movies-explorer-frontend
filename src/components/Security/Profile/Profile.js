@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Security.css';
 import './Profile.css';
+import '../../Errors/Errors.css';
 
 import Header from '../../Header/Header';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';

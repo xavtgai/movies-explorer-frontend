@@ -6,15 +6,40 @@ function EditProfilePopup (props) {
   
 const currentUser = useContext(CurrentUserContext);
 
+
+// const {isValid} =
+//     useValidateForm({name: currentUser.name, email: currentUser.email});
 const [name, setName] = useState('');
 const [email, setEmail] = useState('');
+
+const [errors, setErrors] = useState({});
+const [isValid, setIsValid] = useState(false);
+  
+const validateField = (e) => {
+  const target = e.target;
+  const title = target.name;
+  setErrors({...errors, [title]: target.validationMessage });
+  setIsValid(target.closest("form").checkValidity());
+}
+
+const handleChangeName = (e) => {
+  validateField(e);
+  setName(e.target.value);
+}
+
+const handleChangeEmail = (e) => {
+  validateField(e);
+  setEmail(e.target.value);
+}
 
 useEffect(() => {
     setName(currentUser.name);
     setEmail(currentUser.email);
+    setErrors({});
+    setIsValid(false);
   }, [currentUser, props.isOpen]); 
 
-
+ 
 function activateButton() {
   let buttonSave = document.getElementById('saveProfile');
   buttonSave.removeAttribute('disabled');
@@ -29,36 +54,21 @@ function disableButton() {
   buttonSave.classList.add('popup__save_inactive');
 }
 
-const handleChangeName = (e) => {
-  setName(e.target.value);
-  if (e.target.value.length > 1 && e.target.value.length < 41) {
-    activateButton()
-  }
-}
-
-const handleChangeEmail = (e) => {
-  setEmail(e.target.value);
-  if (e.target.value.length > 4 && e.target.value.length < 201) {
-    activateButton()}
-}
+useEffect(()=> {
+  if ((name === currentUser.name && email === currentUser.email) || !isValid)
+  disableButton()
+  else { activateButton()}
+  }, [name, email, currentUser.name, currentUser.email, isValid, props.isOpen])
 
 
 function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
-
-    if (name === currentUser.name && email === currentUser.email)
-    { disableButton();
-      console.log('the data has not changed');
-      //И какую-нибудь ошибку пользователю показать. 
-    } else {
     props.onUpdateUser({
       name: name,
       email: email,
     });
-    disableButton();
-      }
+    
   } 
   
 return (
@@ -68,9 +78,9 @@ return (
           <form action="action" className="popup__form" name='profile' onSubmit={handleSubmit} onClose={props.onClose}>
               <h2 className="popup__title">Редактировать профиль</h2>
                 <input className="popup__field" type="text" value={name || ''} onChange={handleChangeName} placeholder="Имя" name="username" maxLength={40} minLength={2} required id="name" />
-                <span className="popup__error popup__error_name"></span>
-                <input className="popup__field" type="text" value={email || ''} onChange={handleChangeEmail} placeholder="email" name="email" maxLength={200} minLength={4} required id="email"  />
-                <span className="popup__error popup__error_job"></span>
+                <span className={`popup__error ${errors.username && 'error__field'}`}>{errors.username}</span>
+                <input className="popup__field" type="email" value={email || ''} onChange={handleChangeEmail} placeholder="email" name="email" maxLength={200} minLength={4} required id="email"  />
+                <span className= {`popup__error ${errors.email && 'popup__field_error'}`}> {errors.email}</span>
               <button className="popup__save" type="submit" aria-label="Cохранить изменения"  id='saveProfile' className='popup__save_inactive' disabled>Сохранить</button>
                   </form>
         </div>

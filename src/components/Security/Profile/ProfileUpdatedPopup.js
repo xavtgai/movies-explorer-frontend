@@ -1,8 +1,7 @@
-import './ProfileUpdatedPopup.css';
+import './Popup.css';
 
 function ProfileUpdatedPopup (props) {
-    // let successMessage = document.getElementById('successMessage');
-    // setTimeout(() => successMessage.hidden = true, 2000)
+
 return (
 <div id='successMessage' className={`popup popup_type_profile ${props.isOpen ? 'popup_visible': ''}`}>
 <div className="popup__content">

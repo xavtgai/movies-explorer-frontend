@@ -2,6 +2,7 @@ import React from 'react';
 import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
 import Film from '../MoviesCard/MoviesCard';
+import {MUCH_MORE_FILMS, MORE_FILMS} from '../../../utils/constants';
 
 function MoviesCardList (props) {
     const initialCardNum = React.useRef(12);
@@ -17,13 +18,13 @@ function MoviesCardList (props) {
      if (needMoreFilms) {   
         let availableWidth = window.screen.width;
         if (availableWidth > 1150)
-           { initialCardNum.current+=3;
+           { initialCardNum.current+= MUCH_MORE_FILMS;
             setNeedMoreFilms(false);
             }
         else if (availableWidth > 700) 
 
             { if (initialCardNum.current %2 ===0)
-                {initialCardNum.current+=2;
+                {initialCardNum.current+= MORE_FILMS;
                 setNeedMoreFilms(false);}
               else {
                 initialCardNum.current+=3;
@@ -53,7 +54,7 @@ const searchResults = localStorage.getItem('searchResults') ? JSON.parse(localSt
             (searchResults.length === 0)  ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
             : null                   
             }
-            {console.log(props.serp, 'serp', query, localStorage.getItem('searchResults'))}
+            
             </div>
     }
         <ul className="movies__list">

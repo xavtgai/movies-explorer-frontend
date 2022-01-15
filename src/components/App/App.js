@@ -16,6 +16,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import EditProfilePopup from '../Security/Profile/EditProfile';
 import ProfileUpdatedPopup from '../Security/Profile/ProfileUpdatedPopup';
+import RegistrationFailedPopup from '../Security/RegistrationFailedPopup';
 
 function App(props) {
 
@@ -129,6 +130,7 @@ function handleRegistration (registrationData) {
 function closeAllPopups () {
     setIsEditProfilePopupOpen(false);
     setIsProfileUpdated(false);
+    setIsRegistrationSuccessful(true);
   }  
   
   function handleUpdateUser (userData) {    
@@ -303,6 +305,10 @@ function searchFilm (isSaved, filterShort) {
 
       <ProfileUpdatedPopup
       isOpen = {isProfileUpdated}
+      onClose={closeAllPopups} 
+      />
+          <RegistrationFailedPopup
+      isOpen = {!isRegistrationSuccessful}
       onClose={closeAllPopups} 
       />
     

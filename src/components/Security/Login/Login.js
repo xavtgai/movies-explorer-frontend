@@ -3,20 +3,32 @@ import logo from '../../../images/logo.svg';
 import '../Security.css';
 import './Login.css';
 import { withRouter } from 'react-router-dom';
+import '../../Errors/Errors.css';
 
 class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errors: '',
+      isValid: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     
   }
+ 
+  _validateField = (e) => {
+  const target = e.target;
+  const title = target.name;
+  this.setState({errors: {[title]: target.validationMessage} });
+  this.setState({isValid: target.closest("form").checkValidity() })
+}
+
   handleChange(e) {
     const {name, value} = e.target;
+    this._validateField(e);
     this.setState({
       [name]: value 
     });
@@ -53,11 +65,11 @@ class Login extends React.Component {
             required name="email" 
             placeholder="Email" 
             autoComplete="email"
-            type="text" 
+            type="email" 
             value={this.state.email} 
             onChange={this.handleChange}
            className="auth__form_input"/>
-           
+           <span className={`error ${this.state.errors.email && 'error__field'}`}>{this.state.errors.email}</span>
          <p className='auth__form_name'>Пароль</p>
           <input 
             id="password" 
@@ -65,12 +77,14 @@ class Login extends React.Component {
             placeholder="Пароль" 
             autoComplete = "current-password"
             type="password" 
+            minLength={8}
             value={this.state.password}
             onChange={this.handleChange} 
             className="auth__form_input"/>
+            <span className={`error ${this.state.errors.password && 'error__field'}`}>{this.state.errors.password}</span>
             
             <div className="auth__button-container">
-              <button type="submit" className="login__form_button">Войти</button>
+              <button type="submit" className={!this.state.isValid ? 'auth__form_button_inactive' : 'login__form_button'} disabled = {!this.state.isValid}>Войти</button>
               <p className='auth__question'>Ещё не зарегистрированы?<span ><a href='/signup' className='auth__alternative-action'>Регистрация</a></span></p>
             </div>
 

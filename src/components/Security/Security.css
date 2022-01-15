@@ -49,6 +49,19 @@
     padding-bottom: 15px;
     border-radius: 3px;
 }
+
+.auth__form_button_inactive  {
+    background-color:dimgray;
+    color: white;
+    margin-top: 50px;
+    padding-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 13px;
+    padding-bottom: 15px;
+    border-radius: 3px;
+}
+
 .auth__form_input {
     margin-bottom: 20px;
     background-color: #2F2F2F;
@@ -91,6 +104,8 @@ cursor: pointer;
      opacity: 0.7;
      cursor: pointer;
  }
+
+
 
  @media screen and (max-width: 780px) {
     .auth__logo {
