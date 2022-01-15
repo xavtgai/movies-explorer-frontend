@@ -33,8 +33,9 @@ class Register extends React.Component {
     });
     
   } 
-
-   render(){
+      
+ render(){
+     
     return(
         <section className="auth">
       

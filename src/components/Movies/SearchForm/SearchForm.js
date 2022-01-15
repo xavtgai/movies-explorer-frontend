@@ -39,7 +39,8 @@ function SearchForm (props) {
                 name="film" 
 
                 // value = {query}
-                minLength={1} required id="title" 
+                //minLength={1} 
+                required id="title" 
                 onChange = {handleChange}
                 />
                 <button className="search__find" type="submit" id="searchButton" aria-label="поиск">Найти</button>

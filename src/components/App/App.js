@@ -7,7 +7,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../Movies/SavedMovies/SavedMovies';
 import Profile from '../Security/Profile/Profile';
 import NotFoundPage from '../Navigation/Notfound';
-import { BASE_URL } from '../../utils/constants';
+import { BASE_URL, SHORT_FILM_DURATION } from '../../utils/constants';
 import { authorize, register } from '../../utils/Auth';
 import Main from '../Main/Main';
 import api from '../../utils/MainApi';
@@ -19,7 +19,18 @@ import ProfileUpdatedPopup from '../Security/Profile/ProfileUpdatedPopup';
 
 function App(props) {
 
+const [currentUser , setCurrentUser] = React.useState(() => {
+  try {
+    const item = localStorage.getItem('currentUser');
+    return item ? JSON.parse(item) : {};
+  } catch (error) {
+    console.log(error, "err");
+    return {};
+  }
+});
+
 const [authorizeStatus, setAuthorizeStatus] = React.useState(false);
+const [recieveServerAnswer, setRecieveServerAnswer] = React.useState(false);
 
 const checkToken = React.useCallback(() => {
   return fetch(`${BASE_URL}/users/me`, {
@@ -30,7 +41,7 @@ const checkToken = React.useCallback(() => {
     credentials: 'include',
   })
   .then((res) => {
-    if (res.status === 200) {
+     if (res.status === 200) {
       setAuthorizeStatus(true);
       setRecieveServerAnswer(true);
     }
@@ -41,13 +52,35 @@ const checkToken = React.useCallback(() => {
     }
   })
   .catch((err) => {
+    console.log(err, "error");
     setAuthorizeStatus(false);
     setRecieveServerAnswer(true);
-    console.log(err);
+  
   });
 }, [setAuthorizeStatus]);
 
-const [currentUser , setCurrentUser] = React.useState({});
+React.useEffect(() => {
+  checkToken();
+ 
+}, [checkToken]);
+
+
+React.useEffect(() => {
+  if (authorizeStatus) {
+    api
+      .myData()
+      .then((data) => {setCurrentUser(data.data);
+        localStorage.setItem('currentUser', JSON.stringify(data.data));
+      })
+      .catch((err) => console.log('Не могу получить данные о пользователе с сервера', err));
+    movie_api.getInitialCards()
+    .then((data) => {
+              setCards(data);
+    })
+    .catch((err) => console.log('Не могу получить фильмы с сервера', err));
+   }
+}, [authorizeStatus, setCurrentUser]);
+
 const [email, setEmail] = React.useState('email');
 
 const handleLogin = React.useCallback(
@@ -131,20 +164,6 @@ React.useEffect(() => {
 const [savedCards, setSavedCards] = React.useState([]);
 
 React.useEffect(() => {
-  if (authorizeStatus) {
-    api
-      .myData()
-      .then((data) => setCurrentUser(data.data))
-      .catch((err) => console.log('Не могу получить данные о пользователе с сервера', err));
-    movie_api.getInitialCards()
-    .then((data) => {
-              setCards(data);
-    })
-    .catch((err) => console.log('Не могу получить фильмы с сервера', err));
-   }
-}, [authorizeStatus]);
-
-React.useEffect(() => {
   if (Object.keys(currentUser).length !== 0) {
     setSavedCards(cards.filter(item => currentUser.likedFilms.includes(item.id)));
   }
@@ -169,16 +188,24 @@ const [searchSavedIsDone, setSearchSavedIsDone] = React.useState(false);
 const [query, setQuery] = React.useState('');
 const [savedQuery, setSavedQuery] = React.useState('');
 const [isLoading, setIsLoading] = React.useState(false);
+const [filterShort, setFilterShort] = React.useState(false);
+
+function rememberFilms(foundCards, filterShort, searchQuery){
+  localStorage.setItem('searchResults', JSON.stringify(foundCards));
+  localStorage.setItem('filterState', filterShort);
+  localStorage.setItem('searchQuery', searchQuery);
+
+}
 
 function searchFilm (isSaved, filterShort) {
   let searchQuery = document.querySelector('.search__field').value.toLowerCase();
   let searchDomain = cards;
   setIsLoading(true);
-  if (filterShort) {searchDomain = cards.filter((card) => { return card.duration < 60})};
+  if (filterShort) {searchDomain = cards.filter((card) => { return card.duration < SHORT_FILM_DURATION})};
   if (isSaved) {searchDomain = savedCards};
   
   if (isSaved && filterShort) {
-    searchDomain = savedCards.filter((card) => { return card.duration < 60});
+    searchDomain = savedCards.filter((card) => { return card.duration < SHORT_FILM_DURATION});
     
 };
   
@@ -199,8 +226,10 @@ function searchFilm (isSaved, filterShort) {
     setFilms(foundCards); 
     setSearchIsDone(true); 
     setQuery(searchQuery);
+    rememberFilms(foundCards, filterShort, searchQuery);
   };
   setIsLoading(false);
+ 
 
   }
  
@@ -209,17 +238,13 @@ function searchFilm (isSaved, filterShort) {
         .then((data) => {
           if (data){
             setAuthorizeStatus(false);
+            localStorage.clear();
             props.history.push('/');
            }
       }).catch(err => console.log(err)); 
    }
   
-  const [recieveServerAnswer, setRecieveServerAnswer] = React.useState(false);
 
-  React.useEffect(() => {
-    checkToken();
-   
-  }, [checkToken]);
    
   if (recieveServerAnswer)
     {return (   
@@ -243,6 +268,7 @@ function searchFilm (isSaved, filterShort) {
               searchIsDone = {searchIsDone}
               query = {query}
               isLoading = {isLoading}
+              filterShorts = {filterShort}
               >
               </ProtectedRoute>
       <ProtectedRoute path="/saved-movies" component = {SavedMovies} 
@@ -256,12 +282,13 @@ function searchFilm (isSaved, filterShort) {
                 isLoading = {isLoading}
                 >
        </ProtectedRoute>
-      <Route path="/signin"> 
-          <Login onLogin = {handleLogin}/>
-     </Route>
-      <Route path="/signup"> 
+      {!authorizeStatus && <Route path="/signin"> 
+          <Login onLogin = {handleLogin} /> 
+       </Route>}
+       {!authorizeStatus &&  <Route path="/signup"> 
             <Register  onRegister = {handleRegistration} />
       </Route>
+      }
      <Route exact path="/"  >
          <Main onLogout = {handleLogout} loggedIn = {authorizeStatus} /> 
       </Route>

@@ -1,5 +1,6 @@
-export const BASE_URL = 'https://api.almostkinopoisk.nomoredomains.rocks';
-//export const BASE_URL = 'http://localhost:3001';
+//export const BASE_URL = 'https://api.almostkinopoisk.nomoredomains.rocks';
+export const BASE_URL = 'http://localhost:3001';
+export const SHORT_FILM_DURATION = 60;
 
 export const BASE_DOMAIN = 'https://nomoreparties.co/beatfilm-movies';
 export const MAIN_PAGE = 'https://almostkinopoisk.nomoredomains.rocks';

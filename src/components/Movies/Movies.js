@@ -6,20 +6,26 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import './Movies.css';
 import './Movies.css';
+import { SHORT_FILM_DURATION } from '../../utils/constants';
 
 
 function Movies (props) {
 
+    const filmsFromStorage = JSON.parse(localStorage.getItem('searchResults'));
+    const filterStateFromStorage = localStorage.getItem('filterState');
+    const queryFromStorage = localStorage.getItem('searchQuery');
+    
     const filterShorts = useState(false);
     const toFilter = filterShorts[0];
     let cardsToShow = props.cards;
-    props.searchIsDone ? cardsToShow = props.serp : cardsToShow = props.cards;
+    queryFromStorage ? cardsToShow = filmsFromStorage : cardsToShow = props.cards;
+  //  props.searchIsDone ? cardsToShow = props.serp : cardsToShow = props.cards;
     if (props.serp.length !== 0) {
         cardsToShow = props.serp    
     }
 
     if (toFilter) {
-        cardsToShow = cardsToShow.filter((card) => { return card.duration < 60});
+        cardsToShow = cardsToShow.filter((card) => { return card.duration < SHORT_FILM_DURATION});
     } 
 
 
@@ -41,10 +47,10 @@ function Movies (props) {
             onCardLike = {props.onCardLike}
             serp = {props.serp}
             searchIsDone = {props.searchIsDone}
-            query = {props.query}
+            query = {queryFromStorage}
             isLoading = {props.isLoading}
              />
-            {/* <Preloader /> */}
+            
         </main>
         <Footer />
     </section>

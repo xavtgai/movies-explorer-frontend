@@ -47,11 +47,18 @@ function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
+
+    if (name === currentUser.name && email === currentUser.email)
+    { disableButton();
+      console.log('the data has not changed');
+      //И какую-нибудь ошибку пользователю показать. 
+    } else {
     props.onUpdateUser({
       name: name,
       email: email,
     });
     disableButton();
+      }
   } 
   
 return (

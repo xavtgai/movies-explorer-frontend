@@ -32,8 +32,10 @@ class Login extends React.Component {
   });
   this.setState({email: '', password: ''});
 } 
+ 
 
   render(){
+    
     return(
         <section className="auth">
       

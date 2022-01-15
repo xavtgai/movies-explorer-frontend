@@ -5,12 +5,9 @@ import Film from '../MoviesCard/MoviesCard';
 
 function MoviesCardList (props) {
     const initialCardNum = React.useRef(12);
-    // const [cardsToDisplay, setCardsToDisplay] = React.useState([...props.cards]);
     
     const initialMovies = props.cards.slice(0, initialCardNum.current);
 
-    //const allFilms = props.cards;
- //   const shortFilms = props.cards.filter((card) => {if (card.duration < 60) {return card}});
   const [needMoreFilms, setNeedMoreFilms] = React.useState(false);
  function addFilms() {
      setNeedMoreFilms(true); 
@@ -46,15 +43,17 @@ let query = '';
 if (props.location === '/movies') query = props.query;
 if (props.location === '/saved-movies') query = props.savedQuery;
 
+const searchResults = localStorage.getItem('searchResults') ? JSON.parse(localStorage.getItem('searchResults')) : [];
 
     return (
 <section className='movies__frame'>
     {props.isLoading ? <Preloader /> : 
         <div className='movies__serp-title'>
-            {props.searchIsDone ?
-            props.serp.length === 0 ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
+            {props.searchIsDone && query != '' ?
+            (searchResults.length === 0)  ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
             : null                   
             }
+            {console.log(props.serp, 'serp', query, localStorage.getItem('searchResults'))}
             </div>
     }
         <ul className="movies__list">

@@ -20,6 +20,7 @@ function Film(props) {
       }
     
     const isLiked = () => {
+
       if (currentUser.likedFilms !==[]) {return currentUser.likedFilms.some(i => i === props.card.id)}
       else {
         return false;

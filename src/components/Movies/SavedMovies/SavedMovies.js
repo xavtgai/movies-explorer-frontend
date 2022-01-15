@@ -4,6 +4,7 @@ import Header from '../../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../../Footer/Footer';
+import { SHORT_FILM_DURATION } from '../../../utils/constants';
 
 function SavedMovies (props) {
 
@@ -16,7 +17,7 @@ function SavedMovies (props) {
     }
 
     if (toFilter) {
-        cardsToShow = cardsToShow.filter((card) => { return card.duration < 60});
+        cardsToShow = cardsToShow.filter((card) => { return card.duration < SHORT_FILM_DURATION});
       } 
     return (
         <section className='movies'>
