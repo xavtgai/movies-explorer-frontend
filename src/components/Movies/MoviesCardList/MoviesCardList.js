@@ -50,7 +50,11 @@ const searchResults = localStorage.getItem('searchResults') ? JSON.parse(localSt
 <section className='movies__frame'>
     {props.isLoading ? <Preloader /> : 
         <div className='movies__serp-title'>
-            {props.searchIsDone && query != '' ?
+            {props.location === '/saved-movies' && query != '' ?
+            (searchResults.length === 0)  ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
+            : null                   
+            }
+             {props.location === '/movies' && props.query ?
             (searchResults.length === 0)  ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
             : null                   
             }
