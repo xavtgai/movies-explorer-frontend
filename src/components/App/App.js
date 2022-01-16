@@ -117,7 +117,7 @@ function handleRegistration (registrationData) {
   register(registrationData.password, registrationData.email, registrationData.name )
   .then((data) => {
     setIsRegistrationSuccessful(true);
-    setAuthorizeStatus(true);
+    
     setCurrentUser(data.data);
     handleLogin({password: registrationData.password, email: registrationData.email});
      })
