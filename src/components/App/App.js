@@ -82,20 +82,20 @@ React.useEffect(() => {
    }
 }, [authorizeStatus, setCurrentUser]);
 
-const [email, setEmail] = React.useState('email');
+// const [email, setEmail] = React.useState('email');
 
 const handleLogin = React.useCallback(
   loginData => {
     authorize(loginData.email, loginData.password)
     .then((data) => {
       if (data){
-        setEmail(loginData.email);
+        // setEmail(loginData.email);
         setAuthorizeStatus(true);
         props.history.push('/movies');
         }
   }).catch(err => console.log(err)); 
 },
-  [setEmail, props.history]
+  [props.history]
 );
 
 const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -287,10 +287,21 @@ function searchFilm (isSaved, filterShort) {
       {!authorizeStatus && <Route path="/signin"> 
           <Login onLogin = {handleLogin} /> 
        </Route>}
+
        {!authorizeStatus &&  <Route path="/signup"> 
             <Register  onRegister = {handleRegistration} />
       </Route>
       }
+
+      {authorizeStatus && <Route path="/signup">
+      <Main onLogout = {handleLogout} loggedIn = {authorizeStatus} /> 
+      </Route>
+      }
+        {authorizeStatus && <Route path="/signin">
+      <Main onLogout = {handleLogout} loggedIn = {authorizeStatus} /> 
+      </Route>
+      }
+
      <Route exact path="/"  >
          <Main onLogout = {handleLogout} loggedIn = {authorizeStatus} /> 
       </Route>

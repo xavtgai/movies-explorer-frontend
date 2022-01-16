@@ -20,8 +20,15 @@ function Film(props) {
       }
     
     const isLiked = () => {
-
-      if (currentUser.likedFilms !==[]) {return currentUser.likedFilms.some(i => i === props.card.id)}
+ 
+      if (currentUser !== {}) {
+        try {
+          if (currentUser.likedFilms.length !== 0)
+          return currentUser.likedFilms.some(i => i === props.card.id)}
+        catch 
+          {console.log('cannot find liked films');
+           return false}
+        }
       else {
         return false;
       }
