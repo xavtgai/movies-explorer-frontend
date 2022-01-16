@@ -4,12 +4,15 @@ import {useState} from "react";
 
 function SearchForm (props) {
     
-     const [filterShort, setFilterShort] = props.filterShorts;
+    const [filterShort, setFilterShort] = props.filterShorts;
+
+        
     const [query, setQuery] = useState('');
     const [savedQuery, setSavedQuery] = useState('');
-       
+    
      function handleToggle () {
       setFilterShort(!filterShort);
+      localStorage.setItem('filterState', !filterShort);
     }
 
     function handleChange(e) {

@@ -202,6 +202,7 @@ function rememberFilms(foundCards, filterShort, searchQuery){
 function searchFilm (isSaved, filterShort) {
   let searchQuery = document.querySelector('.search__field').value.toLowerCase();
   let searchDomain = cards;
+  
   setIsLoading(true);
   if (filterShort) {searchDomain = cards.filter((card) => { return card.duration < SHORT_FILM_DURATION})};
   if (isSaved) {searchDomain = savedCards};
@@ -210,7 +211,7 @@ function searchFilm (isSaved, filterShort) {
     searchDomain = savedCards.filter((card) => { return card.duration < SHORT_FILM_DURATION});
     
 };
-  
+ 
   const foundCards = searchDomain.filter(function (card) {
     let ruName = '';
     let enName = '';
@@ -246,7 +247,6 @@ function searchFilm (isSaved, filterShort) {
       }).catch(err => console.log(err)); 
    }
   
-
    
   if (recieveServerAnswer)
     {return (   
