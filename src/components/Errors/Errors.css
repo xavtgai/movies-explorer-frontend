@@ -1,0 +1,8 @@
+.error__field {
+    border-top: 1px solid rgba(255, 0, 0, 0.9);
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 15px;
+    background-color: transparent;
+}
+

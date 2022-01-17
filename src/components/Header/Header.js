@@ -1,50 +1,27 @@
 import React from 'react';
-import { NavLink, withRouter} from 'react-router-dom';
+import { Link, NavLink, withRouter} from 'react-router-dom';
 import profile_icon from '../../images/profile_icon.svg';
-// import {path} from '../../utils/constants';
+import profile_icon_main from '../../images/profile_icon_main.svg';
 import Navigation from '../Navigation/NavTab/NavTab';
-
 import './Header.css';
 import logo from '../../images/logo.svg';
 import {useState} from "react";
 
 function Header(props){
 
-  
     const [isChange, setIsChange] = useState(false);
 
     function handleToggle () {
       setIsChange(!isChange);
     }
 
-    let loggedIn = false;
-    let action;
-    let buttonLink = "./signin";
+    let loggedIn = props.loggedIn;
     let movies = "./movies";
     let saved_movies = './saved-movies';
     let profile_link = './profile';
-    let signup = '/signup';
-    let signin = '/signin';
-    
-    
-
-    switch (props.location.pathname) {
-        case '/signin':
-            action = 'Регистрация';
-          buttonLink = '/signup';
-          break;
-    
-        case '/signup':
-            action = 'Войти';
-          break;
-    
-        default:
-            action = 'Выйти';
-          loggedIn = true;
-          break;
-      }
-
-    return (
+      
+   
+  return (
 <header className="header">
   
     <div 
@@ -52,25 +29,22 @@ function Header(props){
     >
     <a href='/' className='header__to-main'><img src={logo} alt="Логотип сайта" className="header__logo" /></a>
            
-        {/* {loggedIn && props.login ? (
-          <p className="header__login">{props.login}</p>
-        ) : null} */}
   <div className='header__links'>
     <div className='header__main-links'>
         <NavLink
-              to={signup}
-              className = {props.location.pathname === "/" ?  "header__navlink header__registration" :   "header__navlink_invisible"} 
+              to='/signup'
+              className = {!loggedIn ?  "header__navlink header__registration" :   "header__navlink_invisible"} 
         >
               Регистрация
             </NavLink>
-            <NavLink
-              to={signin}
-              className = {props.location.pathname === "/" ?  "header__button" :   "header__navlink_invisible"} 
+            <Link
+              to='/signin'
+              className = {!loggedIn  ?  "header__button" :   "header__navlink_invisible"} 
             >
               Войти
-            </NavLink>
+            </Link>
             </div>
-            {props.location.pathname !== "/" ? 
+            {loggedIn ? 
             <><input className='header__menu_checkbox' id='menu' type="checkbox" checked={isChange} onChange={()=>{}} onClick= {handleToggle}>
             </input>
             <label htmlFor="menu" className='header__menu'></label>
@@ -83,19 +57,19 @@ function Header(props){
               }
             <div 
          
-            className = {props.location.pathname === "/" ?  "header__navlinks_invisible" :   "header__navlinks"}
+            className = {!loggedIn ?  "header__navlinks_invisible" :   "header__navlinks"}
             >
               
                 <div className='header__movie-links'>
                     <NavLink
                         to={movies}
-                        className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink header__films" } 
+                        className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink header__films" } 
                       >
                         Фильмы
                       </NavLink>
                       <NavLink
                         to={saved_movies}
-                        className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink"} 
+                        className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink"} 
                       >
                         Сохранённые фильмы
                       </NavLink>
@@ -103,9 +77,9 @@ function Header(props){
 
                 <NavLink
                   to={profile_link}
-                  className = {props.location.pathname === "/" ?  "header__navlink_invisible" : "header__navlink"} 
+                  className = {!loggedIn ?  "header__navlink_invisible" : "header__navlink header__account"} 
                 >
-                Аккаунт <img src={profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
+                Аккаунт <img src={props.location.pathname === "/" ? profile_icon_main : profile_icon} className='header__profile-icon' alt='Иконка профиля'></img>
                 </NavLink>
                 </div>
                 </div>

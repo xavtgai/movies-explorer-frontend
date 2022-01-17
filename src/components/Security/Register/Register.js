@@ -1,9 +1,53 @@
 import React from 'react';
 import logo from '../../../images/logo.svg';
+import { Link, withRouter } from 'react-router-dom';
 import '../Security.css';
 import './Register.css';
+import '../../Errors/Errors.css';
 
-function register (){
+class Register extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {  
+        password: '',
+      email: '',
+      errors: '',
+      isValid: false,
+     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+
+  _validateField = (e) => {
+    const target = e.target;
+    const title = target.name;
+    this.setState({errors: {[title]: target.validationMessage} });
+    this.setState({isValid: target.closest("form").checkValidity() })
+    }
+
+  handleChange(e) {
+    const {name, value} = e.target;
+    this._validateField(e);
+    this.setState({
+      [name]: value 
+    });
+  }
+
+   handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+    // Передаём значения управляемых компонентов во внешний обработчик
+    this.props.onRegister({
+      password: this.state.password,
+      email: this.state.email,
+      name: this.state.user_name,
+    });
+    
+  } 
+      
+ render(){
+     
     return(
         <section className="auth">
       
@@ -15,7 +59,7 @@ function register (){
           
         </p>
         </div>
-        <form  >
+        <form  onSubmit={this.handleSubmit}>
           
         <p className='auth__form_name'>Имя</p>
           <input 
@@ -24,7 +68,11 @@ function register (){
             placeholder="Имя" 
             autoComplete="Васисуалий"
             type="text" 
+            value={this.state.name}
+            minLength={2}
+            onChange={this.handleChange} 
             className="auth__form_input"/>
+            <span className={`error ${this.state.errors.user_name && 'error__field'}`}>{this.state.errors.user_name}</span>
         
         <p className='auth__form_name'>E-mail</p>
           <input 
@@ -32,22 +80,27 @@ function register (){
             required name="email" 
             placeholder="Email" 
             autoComplete="email"
-            type="text" 
-       //     value={this.state.email} 
+            type="email" 
+            value={this.state.email}
+            onChange={this.handleChange} 
            className="auth__form_input"/>
+           <span className={`error ${this.state.errors.email && 'error__field'}`}>{this.state.errors.email}</span>
          <p className='auth__form_name'>Пароль</p>
-          <input 
+                   <input 
             id="password" 
             required name="password" 
             placeholder="Пароль" 
             autoComplete = "current-password"
             type="password" 
-     //       value={this.state.password} 
+            minLength={8}
+            value={this.state.password} 
+            onChange={this.handleChange}
             className="auth__form_input"/>
-            
+             <span className={`error ${this.state.errors.password && 'error__field'}`}>{this.state.errors.password}</span>
+
             <div className="auth__button-container">
-              <button type="submit" className="register__form_button">Зарегистрироваться</button>
-              <p className='auth__question'>Уже зарегистрированы?<span ><a href='/signin' className='auth__alternative-action'>Войти</a></span></p>
+            <button type="submit" className={!this.state.isValid ? 'auth__form_button_inactive' : 'register__form_button'} disabled = {!this.state.isValid}>Зарегистрироваться</button>
+            <p className='auth__question'>Уже зарегистрированы?<span ><Link to='/signin' className='auth__alternative-action'>Войти</Link></span></p>
             </div>
 
         </form>
@@ -56,5 +109,5 @@ function register (){
         </section>
     )
   }
-
-  export default register;
+}
+  export default withRouter(Register);

@@ -10,11 +10,9 @@ import Portfolio from './Portfolio/Portfolio';
 import Footer from '../Footer/Footer';
 
 function Main(props){
-
- // const currentUser = React.useContext(CurrentUserContext);
-   // const cards = props.cards.length ? props.cards : [{"_id": 123, "name": "Loading...", "owner": "61685f395cb2c1a88626898c", "likes": []}];
+  
     return (<>
- <Header />
+ <Header onLogout={props.onLogout} loggedIn = {props.loggedIn} />
         <main className="content ">
             <Promo />
            

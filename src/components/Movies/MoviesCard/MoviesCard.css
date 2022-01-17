@@ -5,7 +5,7 @@
     /* width: 100%; */
     object-fit: contain;
 
-    cursor: zoom-in;
+    cursor: pointer;
 }
 
 .film {
@@ -14,7 +14,10 @@
     padding: 0;
 }
 
- 
+.film__trailer {
+    text-decoration: none;
+    cursor: pointer;
+}
 
 .film__legend {
     display: flex;

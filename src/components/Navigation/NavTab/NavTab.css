@@ -27,15 +27,6 @@ z-index: 2;
     bottom: 55px;
     }
 
-.header__profile-icon {
-    width: 26px;
-    height: 30px;
-    background-color: #313131;
-    background-size: 26px 30px;
-    border-radius: 4px;
-    
-}
-
 .navigation__item {
     color: white;
     text-decoration: none;

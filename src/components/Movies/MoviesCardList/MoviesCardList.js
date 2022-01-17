@@ -1,12 +1,66 @@
 import React from 'react';
+import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
 import Film from '../MoviesCard/MoviesCard';
+import {MUCH_MORE_FILMS, MORE_FILMS} from '../../../utils/constants';
 
 function MoviesCardList (props) {
-    const initialMovies = props.cards.slice(0, 12);
-        
+    const initialCardNum = React.useRef(12);
+    
+    const initialMovies = props.cards.slice(0, initialCardNum.current);
+
+  const [needMoreFilms, setNeedMoreFilms] = React.useState(false);
+ function addFilms() {
+     setNeedMoreFilms(true); 
+ }
+
+ React.useEffect(() => {
+     if (needMoreFilms) {   
+        let availableWidth = window.screen.width;
+        if (availableWidth > 1150)
+           { initialCardNum.current+= MUCH_MORE_FILMS;
+            setNeedMoreFilms(false);
+            }
+        else if (availableWidth > 700) 
+
+            { if (initialCardNum.current %2 ===0)
+                {initialCardNum.current+= MORE_FILMS;
+                setNeedMoreFilms(false);}
+              else {
+                initialCardNum.current+=3;
+                setNeedMoreFilms(false);
+              }
+             }
+        else 
+             { initialCardNum.current+=1;
+              setNeedMoreFilms(false);
+              }
+        }     
+          
+    }, 
+[needMoreFilms]);
+
+let query = '';
+if (props.location === '/movies') query = props.query;
+if (props.location === '/saved-movies') query = props.savedQuery;
+
+const searchResults = localStorage.getItem('searchResults') ? JSON.parse(localStorage.getItem('searchResults')) : [];
+
     return (
 <section className='movies__frame'>
+    {props.isLoading ? <Preloader /> : 
+        <div className='movies__serp-title'>
+            {props.location === '/saved-movies' && query != '' ?
+            (searchResults.length === 0)  ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
+            : null                   
+            }
+             {props.location === '/movies' && props.query ?
+            (searchResults.length === 0)  ? `Ничего не найдено по запросу "${props.query}"` : `Результаты поиска по запросу "${props.query}"`
+            : null                   
+            }
+            
+            </div>
+    }
         <ul className="movies__list">
               { 
               initialMovies.map((card) => (
@@ -14,13 +68,18 @@ function MoviesCardList (props) {
                 key = {card.id}
                  card={card} 
                  url = {props.location}
+                onCardLike = {props.onCardLike}
+                
             />
             )
             )
         }
         </ul>
-        <button className='movies__add-more'>Ещё</button>
-        </section>
+        <button onClick={addFilms} className = { initialCardNum.current <= initialMovies.length 
+            ? 'movies__add-more' : 'movies__button-invisible'} >Ещё</button>
+        
+            </section>
+    
     ) 
 }
 
